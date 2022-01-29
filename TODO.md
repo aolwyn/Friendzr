@@ -79,15 +79,19 @@
 # Task Distribution
 
 ## Noah - Backend
-- Direct Messaging
+
+Do the tasks in the order as given.
+
 - Authentication.
-  - creating account
-  - tokens in Web browser for staying logged in
-  - Email verification
-  - OAuth2 for Google and Apple
-  - Firebase.
-- Let Sinan know the data that we store for each user.
-  - Schemas.
+  - Logging in with email and password.
+  - Tokens in Web browser for staying logged in.
+  - Creating account with email and password.  
+  - Email verification.
+- Direct Messaging
+- Final Touches
+  - OAuth2 for Google.
+  - Other TODO that "came up" during development.
+  
 
 ## Adam - Frontend
 - Recording on the client.
