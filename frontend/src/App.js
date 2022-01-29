@@ -89,6 +89,10 @@ function LoginForm() {
         onClick={(e) => LoginButtonOnClick(e, email, password)}>
           Sign in
       </button>
+      <span style={{margin:"1vh"}}>OR</span>
+      {/* TODO(Noah): Make the Google sign-in form accessible. 
+        Also make the font on the button larger. */}
+      <div className="g-signin2" data-longtitle="true" />
       <p className="mt-5 mb-3 text-muted">&copy; 2022</p>
     </form>
     
