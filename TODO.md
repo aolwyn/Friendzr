@@ -12,6 +12,8 @@
       - https://www.cockroachlabs.com/docs/stable/secure-a-cluster.html#before-you-begin
       - We will want to run a single node cluster because multiple \
       nodes on a single machine is not sutiable for production.
+  - READING AND WRITING TO DATABASE FROM SERVER:
+    - Basically an HTTP get request with the SQL command as the query string.
 - Token/cookie: For keeping the user logged in
   - See here for Cookies and JWT https://github.com/BluBloos/Collective-Scholars2/blob/master/store/index.js
   - Maybe look here: https://developer.mozilla.org/en-US/docs/Web/HTTP/Cookies
@@ -77,15 +79,21 @@
 # Task Distribution
 
 ## Noah - Backend
-- Direct Messaging
+
+Do the tasks in the order as given.
+
 - Authentication.
-  - creating account
-  - tokens in Web browser for staying logged in
-  - Email verification
-  - OAuth2 for Google and Apple
-  - Firebase.
-- Let Sinan know the data that we store for each user.
-  - Schemas.
+  - Logging in with email and password -> COMPLETE.
+  - Logged-in state is valid on App component -> COMPLETE. 
+  - Authentication persistence -> COMPLETE.
+  - Creating account with email and password -> COMPLETE.  
+  - Users logging out.
+  - Email verification.
+- Direct Messaging
+- Final Touches
+  - OAuth2 for Google.
+  - Other TODO that "came up" during development.
+  
 
 ## Adam - Frontend
 - Recording on the client.
