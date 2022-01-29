@@ -14,7 +14,8 @@ import {
   signInWithEmailAndPassword,
   createUserWithEmailAndPassword,
   setPersistence,
-  browserLocalPersistence
+  browserLocalPersistence,
+  signOut
 } from "firebase/auth";
 // TODO: Add SDKs for Firebase products that you want to use
 // https://firebase.google.com/docs/web/setup#available-libraries
@@ -269,6 +270,8 @@ class App extends React.Component {
             flexDirection: "row",
             alignContent: "flex-start"
           }}>
+            { /* TODO(Noah): For both of these forms, it is the case that the passwords and emails
+              should be released from the input after hitting the button. */ }
             <LoginForm/>
             <SignUpForm/>
           </div>
@@ -277,10 +280,22 @@ class App extends React.Component {
           a func literal (or arrow syntax) or whatever. */}
           {/*<button onClick={() => {console.log(auth.currentUser)}} />*/}
           
-          {((this.state.loggedIn) ? <div style={{padding:20}}>
-              User is logged in. <br />
-              Name of user: {this.state.username}
-          </div>:<div></div>)}
+          {((this.state.loggedIn) ?
+              <div style={{
+                display: "flex",
+                flexDirection: "column",
+                padding: 20
+              }}>
+                <span>User is logged in.</span>
+                <span>Name of user: {this.state.username}</span>
+                <div><button style={{margin:20}}
+                  className="btn btn-lg btn-primary btn-block" 
+                  onClick={(e) => { 
+                    signOut(auth); // TODO(Noah): Should we check if this did not work?
+                  }}>
+                    Logout
+                </button></div>
+              </div> : <div></div>)}
           <p className="mt-5 mb-3 text-muted">&copy; 2022</p>
         </div>
       </div>
