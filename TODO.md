@@ -74,6 +74,31 @@
 - Guided activity for creating account details.
   - Ability to record 30-second video and upload to profile.
 
+# Task Distribution
+
+## Noah - Backend
+- Direct Messaging
+- Authentication.
+  - creating account
+  - tokens in Web browser for staying logged in
+  - Email verification
+  - OAuth2 for Google and Apple
+  - Firebase.
+- Let Sinan know the data that we store for each user.
+  - Schemas.
+
+## Adam - Frontend
+- Recording on the client.
+- Swipe Stuff -> main "flow" of the app.
+
+## Sinan - DevOps
+- Design of the GUI.
+- Frontend CSS styling stuff.
+- Managing Firebase.
+- Managing Google Cloud.
+- Express Server.
+- Cockroach DB.
+
 # Research "Corner"
 
 ## How to make a Website Accessible
