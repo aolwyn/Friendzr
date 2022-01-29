@@ -18,11 +18,13 @@
   "bugs": {
     "url": "https://github.com/Sinan-Sinan/qhacks2022/issues"
   },
+  "type": "module",
   "homepage": "https://github.com/Sinan-Sinan/qhacks2022#readme",
   "dependencies": {
     "concurrently": "^7.0.0",
     "cors": "^2.8.5",
     "express": "^4.17.2",
+    "firebase": "^9.6.5",
     "morgan": "^1.10.0",
     "nodemon": "^2.0.15"
   }

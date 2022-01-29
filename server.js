@@ -1,7 +1,8 @@
-const express = require('express');
-const morgan = require('morgan');
-// What is cors?????
-var cors = require('cors');
+import express from 'express';
+import morgan from 'morgan';
+// TODO: What is cors?????
+import cors from 'cors';
+import {CreateUserWithEmailAndPassword} from './server_util/authentication.js';
 const port = 5000;
 
 const app = express();
@@ -14,6 +15,16 @@ app.use(morgan('dev')); // give back development data,
 app.get('/', (req, res) => {
   res.send('Hello World!')
 })
+
+// TODO(Noah): Routes or something?
+
+// TODO(Noah): Add end-to-end encryption to this to make the login
+// secure!
+app.post('/login', function(req, res) {
+    let email = req.body.email;
+    let password = req.body.password;
+    console.log(email, password);
+});
 
 app.listen(port, () => {
   console.log(`Server running on port ${port}`)
