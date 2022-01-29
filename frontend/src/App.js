@@ -1,7 +1,11 @@
 import './App.css';
 import './signin.css'
 import React, { useState } from "react";
-
+import {
+  Routes,
+  Route
+} from "react-router-dom";
+import Messenger from "./Messenger.js";
 // --------------------- FIREBASE CLIENT SDK ----------------------
 // Import the functions you need from the SDKs you need
 import { 
@@ -257,51 +261,63 @@ class App extends React.Component {
   render() {
     return (
       <div className="App">
-        <div style={{
-          position: "relative"
-        }}>
+
+        <Routes>
+          <Route path="/auth" element={
+              <div style={{
+                position: "relative"
+              }}>
+                <div style={{
+                  display: "flex",
+                  flexDirection: "row",
+                  alignContent: "flex-start"
+                }}>
+                  { /* TODO(Noah): For both of these forms, it is the case that the passwords and emails
+                    should be released from the input after hitting the button. */ }
+                  <LoginForm/>
+                  <SignUpForm/>
+                </div>
+                
+                { /* NOTE(Noah): onClick takes in a function. So if we want to call a function here, need to pass
+                a func literal (or arrow syntax) or whatever. */ }
+                { /*<button onClick={() => {console.log(auth.currentUser)}} />*/ }
+                
+                <p className="mt-5 mb-3 text-muted">&copy; 2022</p>
+              </div>
+            } />
+          <Route path="/" element={
+            <Messenger />
+          } />
+        </Routes>
+
+         {/* Extra login controls and info about user. */} 
+        {((this.state.loggedIn) ?
           <div style={{
             display: "flex",
-            flexDirection: "row",
-            alignContent: "flex-start"
+            flexDirection: "column",
+            padding: 20
           }}>
-            { /* TODO(Noah): For both of these forms, it is the case that the passwords and emails
-              should be released from the input after hitting the button. */ }
-            <LoginForm/>
-            <SignUpForm/>
-          </div>
-          
-          { /* NOTE(Noah): onClick takes in a function. So if we want to call a function here, need to pass
-          a func literal (or arrow syntax) or whatever. */ }
-          { /*<button onClick={() => {console.log(auth.currentUser)}} />*/ }
-          
-          {((this.state.loggedIn) ?
-              <div style={{
-                display: "flex",
-                flexDirection: "column",
-                padding: 20
+            <span>User is logged in.</span>
+            <span>Name of user: {this.state.username}</span>
+            <span>User verified: {(this.state.emailVerified) ? "Yes" : "No"}</span>
+            <div><button style={{marginTop:20}}
+              className="btn btn-lg btn-primary btn-block"
+              onClick={(e) => {
+                // TODO(Noah): Certainly would be nice for there to be a popup here
+                // that's like, "Email verified!"
+                sendEmailVerification(auth.currentUser);
+              }}>Send Verification Email</button>
+            </div>
+            <div><button style={{margin:20}}
+              className="btn btn-lg btn-primary btn-block" 
+              onClick={(e) => { 
+                signOut(auth); // TODO(Noah): Should we check if this did not work?
               }}>
-                <span>User is logged in.</span>
-                <span>Name of user: {this.state.username}</span>
-                <span>User verified: {(this.state.emailVerified) ? "Yes" : "No"}</span>
-                <div><button style={{marginTop:20}}
-                  className="btn btn-lg btn-primary btn-block"
-                  onClick={(e) => {
-                    // TODO(Noah): Certainly would be nice for there to be a popup here
-                    // that's like, "Email verified!"
-                    sendEmailVerification(auth.currentUser);
-                  }}>Send Verification Email</button>
-                </div>
-                <div><button style={{margin:20}}
-                  className="btn btn-lg btn-primary btn-block" 
-                  onClick={(e) => { 
-                    signOut(auth); // TODO(Noah): Should we check if this did not work?
-                  }}>
-                    Logout
-                </button></div>
-              </div> : <div></div>)}
-          <p className="mt-5 mb-3 text-muted">&copy; 2022</p>
-        </div>
+                Logout
+            </button></div>
+          </div> : <div></div>
+        )}
+
       </div>
     );
   }
