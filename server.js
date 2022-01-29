@@ -23,12 +23,12 @@ app.get('/', (req, res) => {
 // TODO(Noah): Routes or something?
 
 // TODO(Noah): Add middleware here or do something more intelligent.
-app.get('/app', (req, res) => {
+app.post('/app', (req, res) => {
 
   // First we check the cookie headers, grab the JWT, and check if the 
   // user is valid
-  let jwt = req.cookies['qcookie'];
-  //console.log(`JWT received:${jwt}`);
+  let jwt = req.body.jwt;
+  console.log(`JWT received:${JSON.stringify(jwt)}`);
   //console.log("Cookie header", req.get('Cookie'));
   VerifyUser(jwt).then(() => {
     res.send("You are authenticated");
