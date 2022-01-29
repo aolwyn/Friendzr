@@ -83,8 +83,9 @@
 Do the tasks in the order as given.
 
 - Authentication.
-  - Logging in with email and password.
-  - Tokens in Web browser for staying logged in.
+  - Logging in with email and password -> COMPLETE.
+  - Logged-in state is valid on App component -> COMPLETE. 
+  - Authentication persistence -> COMPLETE.
   - Creating account with email and password.  
   - Email verification.
 - Direct Messaging

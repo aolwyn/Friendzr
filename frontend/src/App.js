@@ -1,6 +1,6 @@
 import './App.css';
 import './signin.css'
-import { useState } from "react";
+import React, { useState } from "react";
 
 // --------------------- FIREBASE CLIENT SDK ----------------------
 // Import the functions you need from the SDKs you need
@@ -11,7 +11,9 @@ import {
 import {
   getAuth,
   onAuthStateChanged,
-  signInWithEmailAndPassword
+  signInWithEmailAndPassword,
+  setPersistence,
+  browserLocalPersistence
 } from "firebase/auth";
 // TODO: Add SDKs for Firebase products that you want to use
 // https://firebase.google.com/docs/web/setup#available-libraries
@@ -27,29 +29,7 @@ const auth = getAuth();
 // import { getAnalytics } from "firebase/analytics";
 //const analytics = getAnalytics(app);
 
-onAuthStateChanged(auth, (user) => {
-  if (user) {
-    // User is signed in, see docs for a list of available properties
-    // https://firebase.google.com/docs/reference/js/firebase.User
-    // const uid = user.uid;
-    
-    // TODO(Noah): Is it safe to store the cookie like this?
-    // Store JWT token as cookie "qcookie".
-    user.getIdToken(/* forceRefresh */ true).then(function(idToken) {
-      // Send token to your backend via HTTPS
-      // ...
-      document.cookie = `qcookie=${idToken}`;
-
-    }).catch(function(error) {
-      // Handle error
-    });
-
-  } else {
-    // User is signed out
-    // ...
-    document.cookie = `qcookie=`;
-  }
-});
+setPersistence(auth, browserLocalPersistence);
 // --------------------- FIREBASE CLIENT SDK ----------------------
 
 // NOTE(Noah): We are able to use both common JS and ES6 module imports because of the React
@@ -57,13 +37,9 @@ onAuthStateChanged(auth, (user) => {
 const axios = require('axios'); 
 
 function LoginButtonOnClick(e, email, password) {
-
   e.preventDefault();
   // Regex to match the 99% of emails in use:
-    // but not compliant to all emails in existence.
-  // NOTE: When we are verifying the email, we leverage the default Bootstrap tooltip
-  // that pops up on error.
-    // we simply just need to match the tooltips... 
+  //     but not compliant to all emails in existence.
   // NOTE(Noah): The new keyword here make new object on heap. Javascript has GC.
   let email_regex = new RegExp("^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}$");
   let email_good = email_regex.test(email.toUpperCase());
@@ -71,55 +47,21 @@ function LoginButtonOnClick(e, email, password) {
   // TODO: Add validation feedback to the user, and make sure it is accessible.
   if (email_good) {
     console.log('Email passed regex test');
-    
-    // TODO(Noah): Do something intelligent on user sign-in if unable to sign-in.
+    // TODO(Noah): Do something intelligent on user sign-in if unable to sign-in,
+    // and also when the user signs in as well.
     signInWithEmailAndPassword(auth, email, password)
-    .then((userCredential) => {
-      // Signed in 
-      // const user = userCredential.user;
-      // ...
-
-      // TODO(Noah): Ensure that the cookie thing actually works on the backend.
-      //    Right now this is not possible because we are running the frontend as a
-      //    development server. The cookies are only sent in the header if the frontend
-      //    is actually on the same domain as the backend.
-      // Do an axios test to see if our server is able to
-      // authenticate us.
-      console.log('RUNNING AXIOS BACKEND-AUTH TEST');
-      axios.get('http://127.0.0.1:5000/app')
-      .then(function (response) {
-        console.log(response);
-      })
-      .catch(function (error) {
-        console.log(error);
-      });
-
-    })
+    .then((userCredential) => {})
     .catch((error) => {
       const errorCode = error.code;
       const errorMessage = error.message;
       console.error(`Unable to sign in with errorCode=${errorCode} and errorMessage=${errorMessage}`);
     });
-
-    // NOTE(Noah): Axios code bleow is legacy, but keeping for reference on making
-    // HTTP requests.
-    /*axios.post('http://127.0.0.1:5000/login', {
-      email,
-      password
-    })
-    .then(function (response) {
-      console.log(response);
-    })
-    .catch(function (error) {
-      console.log(error);
-    });*/
-
   } else {
     console.error("Email did not pass regex test");
   }
-  
 }
 
+// TODO(Noah): Implement remember-me to control if Firebase persists or does not persist.
 function LoginForm() {
   const [email, setName] = useState("");
   const [password, setPassword] = useState("");
@@ -157,7 +99,7 @@ function LoginForm() {
       </div>
       <button 
         className="btn btn-lg btn-primary btn-block" 
-        onClick={(e) => LoginButtonOnClick(e, email, password)}>
+        onClick={(e) => {LoginButtonOnClick(e, email, password)}}>
           Sign in
       </button>
       <span style={{margin:"1vh"}}>OR</span>
@@ -171,20 +113,75 @@ function LoginForm() {
   )
 }
 
-function App() {
-  return (
-    <div className="App">
-      <div style={{
-        position: "relative"
-      }}>
-        <LoginForm />
-        { // TODO(Noah): Setup react redux to have global state so that we can update components like this.
-        /*((auth.currentUser) ? <div>
-            User is logged in.
-        </div>:<div></div>)*/ }
+function BackendTest(idToken) {
+  console.log('RUNNING AXIOS BACKEND-AUTH TEST');
+  axios.post('http://127.0.0.1:5000/app', {
+    jwt: idToken
+  })
+  .then(function (response) {
+    console.log(response);
+  })
+  .catch(function (error) {
+    console.log(error);
+  });
+}
+
+class App extends React.Component {
+
+  constructor() {
+    super();
+    this.state = {
+      loggedIn: false
+    };
+  }
+
+  componentDidMount() {
+    // Not sure if this has any use, but certainly should exist for safety purposes.
+    if (auth.currentUser) {
+      if (!this.state.loggedIn) {
+        this.setLoggedIn(true);
+      }
+    }
+    onAuthStateChanged(auth, (user) => {
+      if (user) { // user is signed in.
+        this.setLoggedIn(true);
+        // TODO(Noah): What are we going to do in the case that we are unable go get an idToken?
+        //    In fact, why would this even fail anyways?
+        user.getIdToken(true).then(function(idToken) {
+          BackendTest();
+        });
+      } else { // user has signed out
+        this.setLoggedIn(false);
+      }
+    });
+  }
+
+  setLoggedIn(login) {
+    this.setState({
+      loggedIn: login
+      //
+    });
+  }  
+
+  render() {
+    return (
+      <div className="App">
+        <div style={{
+          position: "relative"
+        }}>
+          <LoginForm/>
+
+          {/*NOTE(Noah): onClick takes in a function. So if we want to call a function here, need to pass
+          a func literal (or arrow syntax) or whatever. */}
+          {/*<button onClick={() => {console.log(auth.currentUser)}} />*/}
+          
+          {((this.state.loggedIn) ? <div>
+              User is logged in.
+          </div>:<div></div>)}
+        </div>
       </div>
-    </div>
-  );
+    );
+  }
 }
 
 export default App;
