@@ -90,7 +90,16 @@ Do the tasks in the order as given.
   - Users logging out -> COMPLETE.
   - Email verification -> COMPLETE (for now).
     
+- Video Recording
+  - Endpoint for user to save video data on the server and generate a uri for the user profile
+
 - Direct Messaging
+  - Basic layout -> COMPLETE (basically).
+  - Message send function
+  - Populate the page with data from the database
+    - And decrypt messages of specific convo
+  - Better styling 
+
 - Final Touches
   - Password reset.
   - Change email flow to be more "clean". See: https://firebase.google.com/docs/auth/web/passing-state-in-email-actions
