@@ -1,6 +1,7 @@
 import express from 'express';
 const router = express.Router();
 import { VerifyUser } from '../server_util/authentication.js';
+
 router.post('/app', (req, res) => {
     // First we check the cookie headers, grab the JWT, and check if the 
     // user is valid
@@ -13,6 +14,7 @@ router.post('/app', (req, res) => {
       res.status(401).send("You are not authenticated");
     });
   
-  });
+});
 
-  export default router;
+
+export default router;

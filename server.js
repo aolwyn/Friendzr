@@ -5,6 +5,7 @@ import cors from 'cors';
 import cookieParser from 'cookie-parser';
 import authRouter from './routes/auth.js';
 
+
 const port = 5000;
 
 const app = express();
