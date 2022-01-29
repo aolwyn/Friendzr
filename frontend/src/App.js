@@ -1,5 +1,6 @@
 import './App.css';
-import './signin.css'
+import './signin.css';
+import Camera from "./camera.js"
 import React, { useState } from "react";
 import {
   Routes,
@@ -96,8 +97,6 @@ function SignUpButtonOnClick(e, email, password, confirmPassword) {
   } else {
     console.error("Email did not pass regex test");
   }
-  
-
 }
 
 // TODO(Noah): What is the cleanest way to make this sign up form not like, NOT
@@ -287,6 +286,10 @@ class App extends React.Component {
             } />
           <Route path="/" element={
             <Messenger />
+          } />
+
+          <Route path="/camera" element={
+            <Camera />
           } />
         </Routes>
 
