@@ -12,6 +12,7 @@ import {
   getAuth,
   onAuthStateChanged,
   signInWithEmailAndPassword,
+  createUserWithEmailAndPassword,
   setPersistence,
   browserLocalPersistence
 } from "firebase/auth";
@@ -61,6 +62,93 @@ function LoginButtonOnClick(e, email, password) {
   }
 }
 
+function SignUpButtonOnClick(e, email, password, confirmPassword) {
+  e.preventDefault();
+  // Regex to match the 99% of emails in use:
+  //     but not compliant to all emails in existence.
+  // NOTE(Noah): The new keyword here make new object on heap. Javascript has GC.
+  let email_regex = new RegExp("^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}$");
+  let email_good = email_regex.test(email.toUpperCase());
+  let passwords_match = (password === confirmPassword);
+
+  // TODO: Add validation feedback to the user, and make sure it is accessible.
+  if (email_good ) {
+    if (passwords_match) {
+    console.log('Email passed regex test');
+    // TODO(Noah): Do something intelligent on user sign-in if unable to sign-in,
+    // and also when the user signs in as well.
+    createUserWithEmailAndPassword(auth, email, password)
+    .then((userCredential) => {})
+    .catch((error) => {
+      const errorCode = error.code;
+      const errorMessage = error.message;
+      console.error(`Unable to sign in with errorCode=${errorCode} and errorMessage=${errorMessage}`);
+    });
+    } else {
+      console.error("Passwords do no match");
+    }
+  } else {
+    console.error("Email did not pass regex test");
+  }
+  
+
+}
+
+// TODO(Noah): What is the cleanest way to make this sign up form not like, NOT
+// mostly a duplicate of the Login Form?
+function SignUpForm() {
+  const [email, setName] = useState("");
+  const [password, setPassword] = useState("");
+  const [confirmPassword, setConfirmPassword] = useState("");
+  const [rememberMe, setRM] = useState(false);
+
+  return (
+    <form className="form-signin">
+      <h1 className="h3 mb-3 font-weight-normal">Create a new Account</h1>
+      <input 
+        type="email" className="form-control" placeholder="Email address" 
+        value={email} onChange={(e) => setName(e.target.value)}
+        required 
+        autoFocus 
+      />
+      <input 
+        type="password" 
+        className="form-control" 
+        placeholder="Password"
+        value={password}
+        onChange={(e) => setPassword(e.target.value)} 
+        required 
+      />
+      <input 
+        type="password" 
+        className="form-control" 
+        placeholder="Confirm Password"
+        value={confirmPassword}
+        onChange={(e) => setConfirmPassword(e.target.value)} 
+        required 
+      />
+      <div className="checkbox mb-3">
+        <label>
+          <input 
+            type="checkbox" 
+            value={rememberMe}
+            onChange={(e) => setRM(e.target.value)}
+            style={{width: 20}} 
+          /> 
+          Remember me 
+        </label>
+      </div>
+      <button 
+        className="btn btn-lg btn-primary btn-block" 
+        onClick={(e) => {SignUpButtonOnClick(e, email, password, confirmPassword)}}>
+          Create Account
+      </button>
+    </form>
+    
+  )
+
+}
+
 // TODO(Noah): Implement remember-me to control if Firebase persists or does not persist.
 function LoginForm() {
   const [email, setName] = useState("");
@@ -102,12 +190,11 @@ function LoginForm() {
         onClick={(e) => {LoginButtonOnClick(e, email, password)}}>
           Sign in
       </button>
-      <span style={{margin:"1vh"}}>OR</span>
       {/* TODO(Noah): Make the Google sign-in form accessible. 
         Also make the font on the button larger, and 
         generally make the button appear better-looking. */}
-      <div className="g-signin2" data-longtitle="true" />
-      <p className="mt-5 mb-3 text-muted">&copy; 2022</p>
+      {//<span style={{margin:"1vh"}}>OR</span>      
+      /*<div className="g-signin2" data-longtitle="true" />*/}
     </form>
     
   )
@@ -131,7 +218,8 @@ class App extends React.Component {
   constructor() {
     super();
     this.state = {
-      loggedIn: false
+      loggedIn: false,
+      username: ""
     };
   }
 
@@ -145,6 +233,7 @@ class App extends React.Component {
     onAuthStateChanged(auth, (user) => {
       if (user) { // user is signed in.
         this.setLoggedIn(true);
+        this.setUsername(user.email);
         // TODO(Noah): What are we going to do in the case that we are unable go get an idToken?
         //    In fact, why would this even fail anyways?
         user.getIdToken(true).then(function(idToken) {
@@ -153,6 +242,12 @@ class App extends React.Component {
       } else { // user has signed out
         this.setLoggedIn(false);
       }
+    });
+  }
+
+  setUsername(name) {
+    this.setState({
+      username: name
     });
   }
 
@@ -169,15 +264,24 @@ class App extends React.Component {
         <div style={{
           position: "relative"
         }}>
-          <LoginForm/>
-
+          <div style={{
+            display: "flex",
+            flexDirection: "row",
+            alignContent: "flex-start"
+          }}>
+            <LoginForm/>
+            <SignUpForm/>
+          </div>
+          
           {/*NOTE(Noah): onClick takes in a function. So if we want to call a function here, need to pass
           a func literal (or arrow syntax) or whatever. */}
           {/*<button onClick={() => {console.log(auth.currentUser)}} />*/}
           
-          {((this.state.loggedIn) ? <div>
-              User is logged in.
+          {((this.state.loggedIn) ? <div style={{padding:20}}>
+              User is logged in. <br />
+              Name of user: {this.state.username}
           </div>:<div></div>)}
+          <p className="mt-5 mb-3 text-muted">&copy; 2022</p>
         </div>
       </div>
     );
