@@ -53,6 +53,10 @@ export default function Camera () {
 
   return (
     <div>
+      <form method='post' action='http://127.0.0.1:5000/api/user/csubmit' encType="media/webp">
+        <input type='file' name='fileUploaded' />
+        <input type='submit'></input>
+      </form>
       <h1> Say Cheese! </h1>
       <Webcam audio={false} ref={webcamRef} />
       {capturing ? (
