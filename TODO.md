@@ -86,7 +86,8 @@ Do the tasks in the order as given.
   - Logging in with email and password -> COMPLETE.
   - Logged-in state is valid on App component -> COMPLETE. 
   - Authentication persistence -> COMPLETE.
-  - Creating account with email and password.  
+  - Creating account with email and password -> COMPLETE.  
+  - Users logging out.
   - Email verification.
 - Direct Messaging
 - Final Touches
