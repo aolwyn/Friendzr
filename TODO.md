@@ -87,11 +87,17 @@ Do the tasks in the order as given.
   - Logged-in state is valid on App component -> COMPLETE. 
   - Authentication persistence -> COMPLETE.
   - Creating account with email and password -> COMPLETE.  
-  - Users logging out.
-  - Email verification.
+  - Users logging out -> COMPLETE.
+  - Email verification -> COMPLETE (for now).
+    
 - Direct Messaging
 - Final Touches
+  - Password reset.
+  - Change email flow to be more "clean". See: https://firebase.google.com/docs/auth/web/passing-state-in-email-actions
+    - Ensure it is sending from custom domain.
+    - Are we going to update the email verified step if they are logged in, then verify?  
   - OAuth2 for Google.
+  - If no devoper account needed, add "Sign in with Apple".
   - Other TODO that "came up" during development.
   
 
