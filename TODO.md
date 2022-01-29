@@ -12,6 +12,8 @@
       - https://www.cockroachlabs.com/docs/stable/secure-a-cluster.html#before-you-begin
       - We will want to run a single node cluster because multiple \
       nodes on a single machine is not sutiable for production.
+  - READING AND WRITING TO DATABASE FROM SERVER:
+    - Basically an HTTP get request with the SQL command as the query string.
 - Token/cookie: For keeping the user logged in
   - See here for Cookies and JWT https://github.com/BluBloos/Collective-Scholars2/blob/master/store/index.js
   - Maybe look here: https://developer.mozilla.org/en-US/docs/Web/HTTP/Cookies
