@@ -15,7 +15,8 @@ import {
   createUserWithEmailAndPassword,
   setPersistence,
   browserLocalPersistence,
-  signOut
+  signOut,
+  sendEmailVerification
 } from "firebase/auth";
 // TODO: Add SDKs for Firebase products that you want to use
 // https://firebase.google.com/docs/web/setup#available-libraries
@@ -221,7 +222,8 @@ class App extends React.Component {
     super();
     this.state = {
       loggedIn: false,
-      username: ""
+      username: "",
+      emailVerified: false
     };
   }
 
@@ -236,6 +238,7 @@ class App extends React.Component {
       if (user) { // user is signed in.
         this.setLoggedIn(true);
         this.setUsername(user.email);
+        this.setVerified(user.emailVerified);
         // TODO(Noah): What are we going to do in the case that we are unable go get an idToken?
         //    In fact, why would this even fail anyways?
         user.getIdToken(true).then(function(idToken) {
@@ -247,18 +250,9 @@ class App extends React.Component {
     });
   }
 
-  setUsername(name) {
-    this.setState({
-      username: name
-    });
-  }
-
-  setLoggedIn(login) {
-    this.setState({
-      loggedIn: login
-      //
-    });
-  }  
+  setVerified(b) {this.setState({emailVerified: b})}
+  setUsername(name) { this.setState({username: name})}
+  setLoggedIn(login) {this.setState({loggedIn: login});}  
 
   render() {
     return (
@@ -277,9 +271,9 @@ class App extends React.Component {
             <SignUpForm/>
           </div>
           
-          {/*NOTE(Noah): onClick takes in a function. So if we want to call a function here, need to pass
-          a func literal (or arrow syntax) or whatever. */}
-          {/*<button onClick={() => {console.log(auth.currentUser)}} />*/}
+          { /* NOTE(Noah): onClick takes in a function. So if we want to call a function here, need to pass
+          a func literal (or arrow syntax) or whatever. */ }
+          { /*<button onClick={() => {console.log(auth.currentUser)}} />*/ }
           
           {((this.state.loggedIn) ?
               <div style={{
@@ -289,6 +283,15 @@ class App extends React.Component {
               }}>
                 <span>User is logged in.</span>
                 <span>Name of user: {this.state.username}</span>
+                <span>User verified: {(this.state.emailVerified) ? "Yes" : "No"}</span>
+                <div><button style={{marginTop:20}}
+                  className="btn btn-lg btn-primary btn-block"
+                  onClick={(e) => {
+                    // TODO(Noah): Certainly would be nice for there to be a popup here
+                    // that's like, "Email verified!"
+                    sendEmailVerification(auth.currentUser);
+                  }}>Send Verification Email</button>
+                </div>
                 <div><button style={{margin:20}}
                   className="btn btn-lg btn-primary btn-block" 
                   onClick={(e) => { 
