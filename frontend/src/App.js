@@ -116,7 +116,7 @@ function LoginForm() {
 
 function BackendTest(idToken) {
   console.log('RUNNING AXIOS BACKEND-AUTH TEST');
-  axios.post('http://127.0.0.1:5000/app', {
+  axios.post('http://127.0.0.1:5000/api/auth/app', {
     jwt: idToken
   })
   .then(function (response) {
