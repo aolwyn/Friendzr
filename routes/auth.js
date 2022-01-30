@@ -1,9 +1,10 @@
 import express from 'express';
-const router = express.Router();
+const authRouter = express.Router();
 import { VerifyUser } from '../server_util/authentication.js';
 import db from '../database.js';
 
-router.post('/app', (req, res) => {
+// TODO(Noah): Add middleware here or do something more intelligent.
+authRouter.post('/app', (req, res) => {
     // First we check the cookie headers, grab the JWT, and check if the 
     // user is valid
     let jwt = req.body.jwt;
@@ -18,6 +19,7 @@ router.post('/app', (req, res) => {
 
 });
 
+<<<<<<< HEAD
 router.post('/create-user', (req, res) => {
     let user = {
         uid: req.body.uid,
@@ -102,3 +104,6 @@ router.post('/create-user', (req, res) => {
   });
 
 export default router;
+=======
+export default authRouter; 
+>>>>>>> 7eb03666b1a7040513df2953edd65c515fb5ba1a

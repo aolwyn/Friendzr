@@ -5,6 +5,8 @@ import cors from 'cors';
 import cookieParser from 'cookie-parser';
 import authRouter from './routes/auth.js';
 import db from './database.js';
+import userRouter from './routes/user.js';
+import fileUpload from 'express-fileupload';
 
 db.schema.hasTable('users').then(function(exists) {
   if (!exists) {
@@ -25,10 +27,13 @@ db.schema.hasTable('users').then(function(exists) {
   }
 });
 
+
 const port = 5000;
 
 const app = express();
+app.use(fileUpload());
 app.use(cors());
+app.use(busboy());
 app.use(cookieParser()); // populates req.cookies.
 app.use(morgan('dev')); // give back development data,
 app.use(express.json()) // for parsing application/json
@@ -38,9 +43,7 @@ app.use(express.json()) // for parsing application/json
 // app.get(/.*/, (req, res) => res.sendFile(`build/index.html`, { root: __dirname }));
 
 app.use('/api/auth', authRouter);
-
-// TODO(Noah): Add middleware here or do something more intelligent.
-
+app.use('/api/user', userRouter);
 
 app.listen(port, () => {
   console.log(`Server running on port ${port}`)
