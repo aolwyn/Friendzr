@@ -65,7 +65,7 @@ class Connect extends Component {
                 <p>{this.state.bio}</p>
                 {this.state.uid ? 
                 <video id="camera" width="100%" height="75%" controls autoPlay>
-                    <source src={ 'http://localhost:3000' + __dirname + 'src/videos/' + this.state.uid + '.webm'}></source>
+                    <source src={ 'http://localhost:3000' + __dirname + 'videos/' + this.state.uid + '.webm'}></source>
                 </video> : <p>null</p>
                 }
                 <button id="connectButton" onClick={this.onConnectClick}>Connect</button> 

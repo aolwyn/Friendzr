@@ -1,5 +1,7 @@
+html{
+    overflow: scroll;
+}
 .page{
-    
     display: flex;
     flex-direction: column;
 }
