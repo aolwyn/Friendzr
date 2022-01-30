@@ -18,7 +18,7 @@ userRouter.post('/video', (req, res) => {
     }
 
     sampleFile = req.files.file;
-    uploadPath = __dirname + '/frontend/src/videos/' + sampleFile.name;
+    uploadPath = __dirname + '/public/videos/' + sampleFile.name;
 
     sampleFile.mv(uploadPath, function(err) {
         if (err)
