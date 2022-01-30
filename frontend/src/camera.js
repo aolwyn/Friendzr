@@ -1,8 +1,38 @@
-import React from 'react';
+import React, { useState } from 'react';
 import Webcam from "react-webcam";
+import axios from 'axios';
+import { getAuth } from "firebase/auth";
+import { initializeApp } from "firebase/app";
+import { firebaseConfig } from "./config.js";
 import './camera.css';
 
-export default function Camera () { 
+initializeApp(firebaseConfig);
+const auth = getAuth();
+
+export default function Camera () {
+  const [video, setVideo] = useState('');
+  const [stop, setStop] = useState(false);
+
+  const onSubmit = async e => {
+    e.preventDefault();
+    setStop(false);
+    handleDownload();
+  }
+
+  const sendData = async () => {
+    const formData = new FormData();
+    formData.append('file', video);
+    console.log(video)
+    auth.currentUser.getIdToken(true).then(function(idToken) {
+      axios.post('http://localhost:5000/api/user/video', formData, {
+        jwt: idToken,
+        headers: {
+          'Content-Type': 'multipart/form-data'
+        }
+      });
+    });
+  }
+
   const webcamRef = React.useRef(null);
   const mediaRecorderRef = React.useRef(null);
   const [capturing, setCapturing] = React.useState(false);
@@ -32,58 +62,37 @@ export default function Camera () {
   const handleStopCaptureClick = React.useCallback(() => {
     mediaRecorderRef.current.stop();
     setCapturing(false);
+    setStop(true);
+    
   }, [mediaRecorderRef, webcamRef, setCapturing]);
 
-  const handleDownload = React.useCallback(() => {
+  const handleDownload = React.useCallback( async () => {
     if (recordedChunks.length) {
       const blob = new Blob(recordedChunks, {
-        type: "video/webm"
+        type: "video/webm",
       });
-      const url = URL.createObjectURL(blob);
-      const a = document.createElement("a");
-      document.body.appendChild(a);
-      a.style = "display: none";
-      a.href = url;
-      a.download = "react-webcam-stream-capture.webm";
-      a.click();
-
-      /*line above auto clicks the download thing. need to figure out how to store and upload right from here */
-      window.URL.revokeObjectURL(url);
+      const myFile = new File([blob], auth.currentUser.uid + ".webm", {
+        type: "video/webm",
+      });
       setRecordedChunks([]);
+      setVideo(myFile);
     }
   }, [recordedChunks]);
 
- 
-  /*TO DO:
-  - need to add connect and skip button functionality (const handle...)
-  - error handling
-
-   const handleSkipClick = React.useCallback() => {
-    (add functionality?)
-
-    onClick = {handleConnectButtonClick}
-    onClick = {handleSkipButtonClick}
-  };
-
-  */
+  
+  React.useEffect( async () => {
+    setTimeout( ()=>{  }, 100);
+    sendData();
+  }, [stop, video]);
 
   return (
     <div className="camera">
-      <h1> Record your profile video below! </h1>
-      <Webcam audio={true} ref={webcamRef} />
-      {capturing ? (
-      <button id="stopButton" onClick={handleStopCaptureClick}>Stop Capture</button>
-    ) : (
-      <button id="startButton" onClick={handleStartCaptureClick}>Start Capture</button>
-    )}
-    {recordedChunks.length > 0 && (
-      <button id="downloadButton" onClick={handleDownload}>Download</button>
-    )}
-
-    <button class="connectButton" >Connect</button> 
-
-    <button class="skipButton" >Skip</button>
-
+      <form id="video" onSubmit={onSubmit} action="#" encType='media/webm'>     
+        <h1> Record your profile video below! </h1>
+          <Webcam audio={false} ref={webcamRef} />
+          {capturing ? (<input type="button" id="stopButton" value="Stop Capture" onClick={handleStopCaptureClick} />) : (<input type="button" id="startButton" value="Start Capture" onClick={handleStartCaptureClick}/>)}
+          {recordedChunks.length > 0 && (<button type="submit" id="#downloadButton"> Next</button>)}
+      </form>
     </div>
   );
 };

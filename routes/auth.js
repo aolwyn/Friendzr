@@ -1,12 +1,13 @@
 import express from 'express';
-const router = express.Router();
+const authRouter = express.Router();
 import { VerifyUser } from '../server_util/authentication.js';
 
-router.post('/app', (req, res) => {
+// TODO(Noah): Add middleware here or do something more intelligent.
+authRouter.post('/app', (req, res) => {
     // First we check the cookie headers, grab the JWT, and check if the 
     // user is valid
     let jwt = req.body.jwt;
-    console.log(`JWT received:${JSON.stringify(jwt)}`);
+    //console.log(`JWT received:${JSON.stringify(jwt)}`);
     //console.log("Cookie header", req.get('Cookie'));
     VerifyUser(jwt).then(() => {
       res.send("You are authenticated");
@@ -16,5 +17,4 @@ router.post('/app', (req, res) => {
   
 });
 
-
-export default router;
+export default authRouter; 

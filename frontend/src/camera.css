@@ -6,6 +6,18 @@
     size-adjust: 75%;
     margin: 10px;
 }
+.camera input{
+    border-radius: 4px;
+    border: none;
+    color: white;
+    text-align: center;
+    padding: 15px 15px;
+    text-decoration: none;
+    font-size: 16px;
+    box-shadow: 0px 4px 4px lightgray;
+    margin: 2px;
+  
+}
 .camera button{
     border-radius: 4px;
     border: none;
@@ -21,18 +33,14 @@
 
 .camera #startButton{
     background-color: #4CAF50;
-   
 }
 
 .camera #stopButton{
-background-color: #f44336;
-
-
+    background-color: #f44336;
 }
 
 .camera #downloadButton{
     background-color: #008CBA;
-
 }
 
 /*  TO DO: set screen placement of connect and skip button  */

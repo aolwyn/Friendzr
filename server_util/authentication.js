@@ -60,7 +60,7 @@ export async function VerifyUser(cookie) {
     .then((decodedToken) => {
         // const uid = decodedToken.uid;
         // ...
-        return true;
+        return decodedToken.uid;
     })
     .catch((error) => {
         // TODO(Noah): Maybe there is something more intelligent we can do here.
