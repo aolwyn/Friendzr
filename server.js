@@ -4,7 +4,26 @@ import morgan from 'morgan';
 import cors from 'cors';
 import cookieParser from 'cookie-parser';
 import authRouter from './routes/auth.js';
+import db from './database.js';
 
+db.schema.hasTable('users').then(function(exists) {
+  if (!exists) {
+      db.schema.createTable('users', function(user) {
+          user.string('uid');
+          user.string('email');
+          user.string('first_name');
+          user.string('last_name');
+          user.string('video_uri');
+          user.string('photo_uri');
+          user.string('bio');
+          user.boolean('is_online');
+          user.string('created_at');
+          user.string('updated_at');
+      }).then(function(table) {
+          console.log('Created Table', table);
+      });
+  }
+});
 
 const port = 5000;
 
@@ -17,9 +36,6 @@ app.use(express.json()) // for parsing application/json
 // TODO(Noah): WHEN WE ARE DONE BUILDING THE PROJECT
 // app.use(express.static(`${__dirname}/build`));
 // app.get(/.*/, (req, res) => res.sendFile(`build/index.html`, { root: __dirname }));
-app.get('/', (req, res) => {
-  res.send('Hello World!')
-})
 
 app.use('/api/auth', authRouter);
 

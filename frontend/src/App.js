@@ -1,6 +1,7 @@
 import './App.css';
 import './signin.css';
 import Camera from "./camera.js"
+import NewUser from './new_user.js';
 import React, { useState } from "react";
 import {
   Routes,
@@ -79,7 +80,7 @@ function SignUpButtonOnClick(e, email, password, confirmPassword) {
   let passwords_match = (password === confirmPassword);
 
   // TODO: Add validation feedback to the user, and make sure it is accessible.
-  if (email_good ) {
+  if (email_good) {
     if (passwords_match) {
     console.log('Email passed regex test');
     // TODO(Noah): Do something intelligent on user sign-in if unable to sign-in,
@@ -91,6 +92,8 @@ function SignUpButtonOnClick(e, email, password, confirmPassword) {
       const errorMessage = error.message;
       console.error(`Unable to sign in with errorCode=${errorCode} and errorMessage=${errorMessage}`);
     });
+
+    
     } else {
       console.error("Passwords do no match");
     }
@@ -290,6 +293,9 @@ class App extends React.Component {
 
           <Route path="/camera" element={
             <Camera />
+          } />
+          <Route path='/new-user' element={
+            <NewUser />
           } />
         </Routes>
 
