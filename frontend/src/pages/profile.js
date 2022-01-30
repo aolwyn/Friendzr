@@ -38,25 +38,24 @@ export default class Profile extends Component {
     }
   }
   async componentDidMount() {
-  const auth = getAuth();
-  const res = await axios.post("http://localhost:5000/api/auth/get-user", { uid: auth.currentUser.uid });
-  this.setState({
-    bio: res.data[0].bio,
-    first: res.data[0].first_name,
-    last: res.data[0].last_name,
-    email: res.data[0].email
-  });
+    const auth = getAuth();
+    const res = await axios.post("http://localhost:5000/api/auth/get-user", { uid: auth.currentUser.uid });
+    this.setState({
+      bio: res.data[0].bio,
+      first: res.data[0].first_name,
+      last: res.data[0].last_name,
+      email: res.data[0].email
+    });
 
-  const connectRes = await axios.post("http://localhost:5000/api/auth/get-connections", { uid: auth.currentUser.uid });
-  let connectionArr = []
-  for (let connect of connectRes.data){
-    connectionArr.push(connect.uid)
-  }
+    const connectRes = await axios.post("http://localhost:5000/api/auth/get-connections", { uid: auth.currentUser.uid });
+    let connectionArr = []
+    for (let connect of connectRes.data){
+      connectionArr.push(connect.uid)
+    }
 
-  this.setState({
-    connections: connectionArr
-  });
-  
+    this.setState({
+      connections: connectionArr
+    });
   }
 
   async clicker(){
@@ -79,9 +78,7 @@ export default class Profile extends Component {
           background: "linear-gradient(to right, #5E17EB, #ffffff 150%)",
           width: "135%",
           height: "200px",
-          padding: "1em",
-          "margin-left": "-13%",
-          "margin-top": "-10%",
+          padding: "1em"
         }}>        
         </div>   
 
@@ -123,7 +120,7 @@ export default class Profile extends Component {
                 onClick={(e) => { 
                   signOut(auth); // TODO(Noah): Should we check if this did not work?
                 }}>
-                 <Link to="/auth"> Logout </Link>
+                 <Link to="/auth" className="MyLink"> Logout </Link>
               </button>
             {/* connections */}
             {/* <div id="connectionsContainer">

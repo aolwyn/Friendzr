@@ -155,7 +155,7 @@ function SignUpForm() {
       <button 
         className="btn btn-lg btn-primary btn-block" 
         onClick={(e) => {SignUpButtonOnClick(e, email, password, confirmPassword)}}>
-          <Link to="/new-user"> Create Account </Link>
+          <Link to="/new-user" className="MyLink"> Create Account </Link>
       </button>
     </form>
     
@@ -204,7 +204,7 @@ function LoginForm() {
         className="btn btn-lg btn-primary btn-block"
         
         onClick={(e) => {LoginButtonOnClick(e, email, password)}}>
-          <Link to="/">Sign in</Link>
+          <Link className="MyLink" to="/">Sign in</Link>
 
       </button>
       {/* TODO(Noah): Make the Google sign-in form accessible. 
@@ -323,7 +323,8 @@ class App extends React.Component {
         }}>
           <Route path="/auth" element={
               <div style={{
-                position: "relative"
+                position: "relative",
+                marginTop: 160,
               }}>
                 <div style={{
                   display: "flex",
