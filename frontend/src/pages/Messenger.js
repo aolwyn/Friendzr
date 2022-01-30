@@ -1,6 +1,8 @@
 import React from "react";
 //var wrap = require('word-wrap');
 import { useState, useEffect } from 'react';
+import './messenger.css';
+import '../App.css';
 
 function getWindowDimensions() {
   const { innerWidth: width, innerHeight: height } = window;
@@ -68,63 +70,37 @@ class Connections extends React.Component {
       <div style={{
         display: "flex",
         flexDirection: "column",
-        backgroundColor: "#CFCFCF"
+        backgroundColor: "white",
+        border: "2px solid black",
+        borderTop: "0px",
+        borderLeft: "0px",
+        borderBottom: "0px"
       }}>
         {this.state.connections.map((connection, index) => (
-          <button key={index} onClick={ () => console.log(connection.name) }>
+          <button style={{ 
+            backgroundColor: (connection.uid == this.props.talkingTo) ? "aliceblue" : "white"
+           }} className="slimButton" key={index} onClick={ () => {
+             console.log(connection.name);
+             this.props.talkingToCallback(connection.uid);
+            } }>
             <div style={{
-              width:100,
+              minWidth: 100,
               display: "flex",
               flexDirection: "row"
             }}>
-              <img src={connection.profile_uri} />
-              <span>{connection.name}</span>
-              <span>{connection.last_msg.timestamp}</span>
+              <img src="/freindzr-transparent.png" width={32}/>
+              <span style={{paddingRight:20}}>{connection.name}</span>
             </div>
-            <span>{connection.last_msg.message.slice(0, 10)}</span>
+            <span style={{
+              paddingLeft:30, fontSize: "0.8em",
+              color: "lightgrey"
+            }}>{connection.last_msg.message.slice(0, 10)}</span>
           </button>
         ))}
       </div>
     )
   }
 
-}
-
-// TODO(Noah): Make the textbox size increase on line-wrap.
-// i.e., make it a SmartTextBox!!!!!
-function SmartTextbox(props) {
-
-  /*let lines = [];
-  if (props.usrMsg) {
-      let wrappedText = wrap(props.usrMsg, 400);
-      console.log('wrappedText', wrappedText);
-      lines = wrappedText.split("\n");
-  }*/
-
-  return (
-    <div style={{
-
-    }} >
-      <textarea
-        rows={1} 
-        className="form-control"
-        value={props.usrMsg} onChange={(e) => props.setUsrMsg(e.target.value)} 
-        autoFocus
-        style={{
-          backgroundColor: "lightgrey",
-          resize: "none",
-          dataGramm: "false", // NOTE(Noah): Was trying to remove grammarly. But seems with no luck.
-          dataGrammEditor: "false",
-          dataEnableGrammarly: "false"
-        }} 
-        onKeyDown={(e) => {
-          if (e.key === "Enter") {
-            console.log('textarea submit')
-          }
-        }}
-      />
-    </div>
-  );
 }
 
 // TODO(Noah): Fix the fact that messages on the right-hand side are like,
@@ -212,49 +188,70 @@ class DirectMessenger extends React.Component {
             width: "inherit",
             overflow: "scroll",
             position: "static",
-            paddingRight: 5,
-            paddingTop: 5,
-            paddingBottom: 5,
-            borderStyle: "solid",
+            display: "flex",
+            flexDirection: "column",
+            border: "2px solid black",
+            borderTop: "0px",
+            borderLeft: "0px",
+            borderRight: "0px"
           }}>
             { 
               this.state.messages.map((message, index) => (
-                <div key={index} style={{
+                <div key={index}
+                ref={ (index == this.state.messages.length - 1) ? this.lastMessage : null } 
+                style={{
                   position: "relative",
-                  backgroundColor: "cyan",
-                  padding:10,
-                  marginLeft:5,
-                  marginBottom:5,
-                  marginTop:5,
+                  backgroundColor: (this.state.myUid != message.from) ? "lightgray" : "#9875ff",
+                  alignSelf: (this.state.myUid != message.from) ? "flex-start" : "flex-end",
+                  padding:20,
+                  margin: 10,
                   maxWidth: 300,
+                  marginRight: 40,
+                  marginLeft: 40,
                   borderRadius: 15,
-                  left: (this.state.myUid == message.from) ? "100%" : 0,
-                  transform: (this.state.myUid == message.from) ? "translate(-100%, 0)" : "translate(0,0)",
+                  //left: (this.state.myUid == message.from) ? "100%" : 0,
+                  //transform: (this.state.myUid == message.from) ? "translate(-150%, 0)" : "translate(50%,0)",
                 }}>{message.contains}</div>
               ))
             }
           </div>
           {/* The bottom input bit for where the user will enter text
             to send to their friend / business associate. */}
-          <textarea
-            ref={this.lastMessage}
-            rows={4} 
-            className="form-control"
-            value={this.state.usrMsg} onChange={(e) => this.setState({usrMsg: e.target.value})} 
-            autoFocus
-            style={{
-              backgroundColor: "lightgrey",
-              resize: "none",
-              dataGramm: "false", // NOTE(Noah): Was trying to remove grammarly. But seems with no luck.
-              dataGrammEditor: "false",
-              dataEnableGrammarly: "false"
-            }} 
-            onKeyDown={(e) => {
-              if (e.key === "Enter") {
-                console.log('textarea submit')
-              }
-            }}
-          />
+          <div style={{
+            padding: "1em",
+            display: "flex",
+            flexDirection: "row"
+          }}>
+            <textarea
+              rows={1} 
+              className="form-control"
+              value={this.state.usrMsg} onChange={(e) => this.setState({usrMsg: e.target.value})} 
+              autoFocus
+              style={{
+                backgroundColor: "lightgrey",
+                resize: "none",
+                borderRadius: "1em",
+                dataGramm: "false", // NOTE(Noah): Was trying to remove grammarly. But seems with no luck.
+                dataGrammEditor: "false",
+                dataEnableGrammarly: "false"
+              }} 
+              onKeyDown={(e) => {
+                if (e.key === "Enter") {
+                  console.log('textarea submit')
+                }
+              }}
+            />
+            <div className="Spacer" />
+            <button onClick={() => console.log('textarea submit')}
+              style={{
+              border: "none",
+              backgroundColor: "white"
+            }}>
+              <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" fill="orange" class="bi bi-send-fill" viewBox="0 0 16 16">
+                <path fill-rule="evenodd" d="M15.964.686a.5.5 0 0 0-.65-.65L.767 5.855H.766l-.452.18a.5.5 0 0 0-.082.887l.41.26.001.002 4.995 3.178 3.178 4.995.002.002.26.41a.5.5 0 0 0 .886-.083l6-15Zm-1.833 1.89.471-1.178-1.178.471L5.93 9.363l.338.215a.5.5 0 0 1 .154.154l.215.338 7.494-7.494Z"/>
+              </svg>
+            </button>
+          </div>
       </div>
     )
   }
@@ -293,6 +290,7 @@ export default function Messenger() {
 
   */
   const { height, width } = useWindowDimensions();
+  const [talkingTo, updateTalkingTo ] = useState(0);
 
   return (
     <div style={{
@@ -304,7 +302,7 @@ export default function Messenger() {
         flexDirection: "row",
         height: height - 80
       }}>
-        <Connections />
+        <Connections talkingTo={talkingTo} talkingToCallback={(t) => updateTalkingTo(t)} />
         <DirectMessenger />
       </div>
     </div>

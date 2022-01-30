@@ -1,5 +1,5 @@
 import { Component } from 'react'
-import './new_user.css';
+import './connect.css';
 import {  initializeApp } from "firebase/app";
 import axios from 'axios';
 import {getAuth } from "firebase/auth";
