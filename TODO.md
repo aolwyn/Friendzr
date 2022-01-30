@@ -12,10 +12,10 @@
 
 - Final Touches
   
-  - Create user form
+  - Create user form -> <span style="color:green;">COMPLETE.</span>
     - Button color change.
     - Lower this form.
-  - Remove "fuck" messages from the messenger.
+  - Remove "fuck" messages from the messenger. 
   - Make the text area like, remove text on submit for now.
   - Make the icon in the top left clickable.
 
