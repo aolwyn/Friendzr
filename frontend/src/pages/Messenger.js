@@ -1,5 +1,29 @@
 import React from "react";
-var wrap = require('word-wrap');
+//var wrap = require('word-wrap');
+import { useState, useEffect } from 'react';
+
+function getWindowDimensions() {
+  const { innerWidth: width, innerHeight: height } = window;
+  return {
+    width,
+    height
+  };
+}
+
+function useWindowDimensions() {
+  const [windowDimensions, setWindowDimensions] = useState(getWindowDimensions());
+
+  useEffect(() => {
+    function handleResize() {
+      setWindowDimensions(getWindowDimensions());
+    }
+
+    window.addEventListener('resize', handleResize);
+    return () => window.removeEventListener('resize', handleResize);
+  }, []);
+
+  return windowDimensions;
+}
 
 // TODO(Noah): actually consider the online data to render the green circle things.
 // Do this for both inside the Connections component and the DirectMessenger component.
@@ -43,7 +67,8 @@ class Connections extends React.Component {
     return (
       <div style={{
         display: "flex",
-        flexDirection: "column"
+        flexDirection: "column",
+        backgroundColor: "#CFCFCF"
       }}>
         {this.state.connections.map((connection, index) => (
           <button key={index} onClick={ () => console.log(connection.name) }>
@@ -78,8 +103,7 @@ function SmartTextbox(props) {
 
   return (
     <div style={{
-      position: "relative",
-      transform: "translate(0,-100%)"
+
     }} >
       <textarea
         rows={1} 
@@ -125,6 +149,21 @@ class DirectMessenger extends React.Component {
         { from: 12, contains: "You know it brother."},
         { from: 12, contains: "Just another day in the life." },
         { from: 16, contains: "fuck....." },
+        { from: 16, contains: "fuck....." },
+        { from: 16, contains: "fuck....." },
+        { from: 16, contains: "fuck....." },
+        { from: 16, contains: "fuck....." },
+        { from: 16, contains: "fuck....." },
+        { from: 16, contains: "fuck....." },
+        { from: 16, contains: "fuck....." },
+        { from: 16, contains: "fuck....." },
+        { from: 16, contains: "fuck....." },
+        { from: 16, contains: "fuck....." },
+        { from: 16, contains: "fuck....." },
+        { from: 16, contains: "fuck....." },
+        { from: 16, contains: "fuck....." },
+        { from: 16, contains: "fuck....." },
+        { from: 16, contains: "fuck....." },
       ],
       usrMsg: ""
     }
@@ -137,12 +176,14 @@ class DirectMessenger extends React.Component {
   render() {
     
     return (
+      
       <div style={{
         display: "flex",
         flexDirection: "column",
+        width: "100%",
       }}>
         {/* Top bar for whom I am messaging */}
-        <div style={{
+        {/*<div style={{
           display: "flex",
           flexDirection: "row",
           padding: 20, 
@@ -150,29 +191,35 @@ class DirectMessenger extends React.Component {
         }}>
           <img src={this.state.who.profile_uri} />
           <span>{this.state.who.name}</span>
-        </div>
+        </div>*/}
         
         {/* 
           The vertical scroll window showing the texts:
             - I think the simplest way to implement this is to go render, starting 
             from the top, oldest -> new.
             - Then we have to autoscroll the div to the as far as it can scroll. 
-        */
-          }
+        */}
+
+        {
+        /* 
+          So this should be like a container. Has some height. The whole height of the viewport.
+          The actual message box is the very bottom portion of this window.
+          What happens in that when the message box increases in height, we actually lose some of the container
+          corresponding to the messages.
+        */}
         <div style={{
             //overflow: "scroll",
-            height: 400,
-            width: 400,
+            width: "inherit",
             overflow: "scroll",
             position: "static",
             paddingRight: 5,
             paddingTop: 5,
             paddingBottom: 5,
-            borderStyle: "solid"
+            borderStyle: "solid",
           }}>
             { 
               this.state.messages.map((message, index) => (
-                <div key={index} ref={ (index == this.state.messages.length - 1) ? this.lastMessage : null } style={{
+                <div key={index} style={{
                   position: "relative",
                   backgroundColor: "cyan",
                   padding:10,
@@ -187,14 +234,27 @@ class DirectMessenger extends React.Component {
               ))
             }
           </div>
-          <div style={{height:25}}>
-          </div>
           {/* The bottom input bit for where the user will enter text
-          to send to their friend / business associate. */}
-          <SmartTextbox
-            usrMsg={this.usrMsg} setUsrMsg={(m) => this.setState({usrMsg: m})} 
+            to send to their friend / business associate. */}
+          <textarea
+            ref={this.lastMessage}
+            rows={4} 
+            className="form-control"
+            value={this.state.usrMsg} onChange={(e) => this.setState({usrMsg: e.target.value})} 
+            autoFocus
+            style={{
+              backgroundColor: "lightgrey",
+              resize: "none",
+              dataGramm: "false", // NOTE(Noah): Was trying to remove grammarly. But seems with no luck.
+              dataGrammEditor: "false",
+              dataEnableGrammarly: "false"
+            }} 
+            onKeyDown={(e) => {
+              if (e.key === "Enter") {
+                console.log('textarea submit')
+              }
+            }}
           />
-
       </div>
     )
   }
@@ -232,14 +292,21 @@ export default function Messenger() {
     - If there are many connections that you have (only want to load some).
 
   */
+  const { height, width } = useWindowDimensions();
 
   return (
     <div style={{
-      display: "flex",
-      flexDirection: "row"
+      height: "100vh"
     }}>
-      <Connections />
-      <DirectMessenger />
+      <div style={{minHeight: 80}}></div>
+      <div style={{
+        display: "flex",
+        flexDirection: "row",
+        height: height - 80
+      }}>
+        <Connections />
+        <DirectMessenger />
+      </div>
     </div>
   );
 }

@@ -307,12 +307,13 @@ class App extends React.Component {
 
   render() {
     return (
+      <React.Fragment>
+      <NavBar />
       <div className="App">
 
-        <NavBar />
-        <div style={{height:80}}></div>
-
-        <Routes>
+        <Routes style={{
+          order:2
+        }}>
           <Route path="/auth" element={
               <div style={{
                 position: "relative"
@@ -349,34 +350,35 @@ class App extends React.Component {
         </Routes>
 
          {/* Extra login controls and info about user. */} 
-        {((this.state.loggedIn) ?
-          <div style={{
-            display: "flex",
-            flexDirection: "column",
-            padding: 20
-          }}>
-            <span>User is logged in.</span>
-            <span>Name of user: {this.state.username}</span>
-            <span>User verified: {(this.state.emailVerified) ? "Yes" : "No"}</span>
-            <div><button style={{marginTop:20}}
-              className="btn btn-lg btn-primary btn-block"
-              onClick={(e) => {
-                // TODO(Noah): Certainly would be nice for there to be a popup here
-                // that's like, "Email verified!"
-                sendEmailVerification(auth.currentUser);
-              }}>Send Verification Email</button>
-            </div>
-            <div><button style={{margin:20}}
-              className="btn btn-lg btn-primary btn-block" 
-              onClick={(e) => { 
-                signOut(auth); // TODO(Noah): Should we check if this did not work?
-              }}>
-                Logout
-            </button></div>
-          </div> : <div></div>
-        )}
+          {/*((this.state.loggedIn) ?
+            <div style={{
+              display: "flex",
+              flexDirection: "column",
+              padding: 20
+            }}>
+              <span>User is logged in.</span>
+              <span>Name of user: {this.state.username}</span>
+              <span>User verified: {(this.state.emailVerified) ? "Yes" : "No"}</span>
+              <div><button style={{marginTop:20}}
+                className="btn btn-lg btn-primary btn-block"
+                onClick={(e) => {
+                  // TODO(Noah): Certainly would be nice for there to be a popup here
+                  // that's like, "Email verified!"
+                  sendEmailVerification(auth.currentUser);
+                }}>Send Verification Email</button>
+              </div>
+              <div><button style={{margin:20}}
+                className="btn btn-lg btn-primary btn-block" 
+                onClick={(e) => { 
+                  signOut(auth); // TODO(Noah): Should we check if this did not work?
+                }}>
+                  Logout
+              </button></div>
+            </div> : <div></div>
+              )*/}
 
       </div>
+      </React.Fragment>
     );
   }
 }
