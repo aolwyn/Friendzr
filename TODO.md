@@ -25,11 +25,11 @@
   - There must exist a method to play transcripted videos.
 
 - Frontend Work -> <span style="color:red;">NOAH</span>
-  - Implement the "Edit my Profile" by the design
+  - Implement the "Edit my Profile" by the design -> <span style="color:green;">PRETTY MUCH DONE</span>
   - Implement the "Messenger" by the design 
   - Implement the "Lef/Right Swipe Flow" by the design
-  - Implement the "Login/Signup" by the design
-  - Implement the "First Time" by the design
+  - Implement the "Login/Signup" by the design -> <span style="color:green;">PRETTY MUCH DONE</span>
+  - Implement the "First Time" by the design -> <span style="color:green;">PRETTY MUCH DONE</span>
 
 - Direct Messaging -> <span style="color:red;">NOAH</span>
   - Load connections from database.
