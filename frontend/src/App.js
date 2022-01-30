@@ -6,7 +6,11 @@ import {
   Routes,
   Route
 } from "react-router-dom";
-import Messenger from "./Messenger.js";
+
+import "bootstrap-icons/font/bootstrap-icons.css";
+import Messenger from "./pages/Messenger.js";
+import Profile from "./pages/profile.js";
+
 // --------------------- FIREBASE CLIENT SDK ----------------------
 // Import the functions you need from the SDKs you need
 import { 
@@ -286,6 +290,10 @@ class App extends React.Component {
             } />
           <Route path="/" element={
             <Messenger />
+          } />
+
+          <Route path="/profile" element={
+            <Profile />
           } />
 
           <Route path="/camera" element={

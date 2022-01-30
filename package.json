@@ -21,6 +21,7 @@
   "type": "module",
   "homepage": "https://github.com/Sinan-Sinan/qhacks2022#readme",
   "dependencies": {
+    "bootstrap-icons": "^1.7.2",
     "child-process": "latest",
     "concurrently": "^7.0.0",
     "connect-busboy": "^1.0.0",
