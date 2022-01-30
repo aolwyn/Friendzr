@@ -1,7 +1,6 @@
 .camera{
     display: flex;
     flex-direction: column;
-   
     border-radius: 8px;
     size-adjust: 75%;
     margin: 10px;

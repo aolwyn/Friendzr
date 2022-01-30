@@ -19,8 +19,7 @@ authRouter.post('/app', (req, res) => {
 
 });
 
-<<<<<<< HEAD
-router.post('/create-user', (req, res) => {
+authRouter.post('/create-user', (req, res) => {
     let user = {
         uid: req.body.uid,
         email: req.body.email,
@@ -37,7 +36,7 @@ router.post('/create-user', (req, res) => {
     });
   });
 
-  router.put('/update-user', (req, res) => {
+  authRouter.put('/update-user', (req, res) => {
     let user = {
       uid: req.body.uid,
       email: req.body.email,
@@ -71,7 +70,7 @@ router.post('/create-user', (req, res) => {
   });
 
 
-  router.delete('/delete-user', (req, res) => {
+  authRouter.delete('/delete-user', (req, res) => {
     let user = {
       uid: req.body.uid
     };
@@ -89,7 +88,7 @@ router.post('/create-user', (req, res) => {
     }
   });
 
-  router.post('/get-user', (req, res) => {
+  authRouter.post('/get-user', (req, res) => {
     let user = {
       uid: req.body.uid
     };
@@ -103,7 +102,4 @@ router.post('/create-user', (req, res) => {
     }
   });
 
-export default router;
-=======
 export default authRouter; 
->>>>>>> 7eb03666b1a7040513df2953edd65c515fb5ba1a

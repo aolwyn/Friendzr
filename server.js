@@ -33,7 +33,6 @@ const port = 5000;
 const app = express();
 app.use(fileUpload());
 app.use(cors());
-app.use(busboy());
 app.use(cookieParser()); // populates req.cookies.
 app.use(morgan('dev')); // give back development data,
 app.use(express.json()) // for parsing application/json
