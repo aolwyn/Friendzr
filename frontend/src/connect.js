@@ -1,10 +1,10 @@
 import { Component } from 'react'
-import './new_user.css';
+import './connect.css';
 import {  initializeApp } from "firebase/app";
 import axios from 'axios';
 import {getAuth } from "firebase/auth";
 import {firebaseConfig} from "./config.js";
-
+ 
 class Connect extends Component {
     constructor(){
         super();
@@ -64,13 +64,13 @@ class Connect extends Component {
                 <h1>{this.state.first_name} {this.state.last_name}</h1>
                 <p>{this.state.bio}</p>
                 {this.state.uid ? 
-                <video width="50%" height="37.5%" controls autoPlay>
+                <video id="camera" width="100%" height="75%" controls autoPlay>
                     <source src={ 'http://localhost:3000' + __dirname + 'src/videos/' + this.state.uid + '.webm'}></source>
                 </video> : <p>null</p>
                 }
-                <button className="connectButton"onClick={this.onConnectClick}>Connect</button> 
+                <button id="connectButton" onClick={this.onConnectClick}>Connect</button> 
 
-                <button className="skipButton" onClick={this.onSkipClick} >Skip</button>
+                <button id="skipButton" onClick={this.onSkipClick} >Skip</button>
             </div>
         );
     

@@ -15,7 +15,7 @@
     font-size: 16px;
     box-shadow: 0px 4px 4px lightgray;
     margin: 2px;
-  
+    
 }
 .camera button{
     border-radius: 4px;
@@ -54,6 +54,7 @@
     text-decoration: none;
     font-size: 16px;
     box-shadow: 0px 2px 2px lightgray;
+    flex-direction: column;
    /* display: flex-right; */
 }
 
@@ -68,5 +69,6 @@
     text-decoration: none;
     font-size: 16px;
     box-shadow: 0px 2px 2px lightgray;
+    flex-direction: column;
 
 }
