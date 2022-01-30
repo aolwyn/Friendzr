@@ -4,17 +4,25 @@ import axios from 'axios';
 import { getAuth } from "firebase/auth";
 import { initializeApp } from "firebase/app";
 import { firebaseConfig } from "./config.js";
+import './camera.css';
+
 initializeApp(firebaseConfig);
 const auth = getAuth();
 
 export default function Camera () {
   const [video, setVideo] = useState('');
+  const [stop, setStop] = useState(false);
 
   const onSubmit = async e => {
     e.preventDefault();
+    setStop(false);
+    handleDownload();
+  }
+
+  const sendData = async () => {
     const formData = new FormData();
     formData.append('file', video);
-
+    console.log(video)
     auth.currentUser.getIdToken(true).then(function(idToken) {
       axios.post('http://localhost:5000/api/user/video', formData, {
         jwt: idToken,
@@ -24,10 +32,6 @@ export default function Camera () {
       });
     });
   }
-
-  const onChange = e => {
-    setVideo(e.target.files[0]);
-  };
 
   const webcamRef = React.useRef(null);
   const mediaRecorderRef = React.useRef(null);
@@ -58,46 +62,37 @@ export default function Camera () {
   const handleStopCaptureClick = React.useCallback(() => {
     mediaRecorderRef.current.stop();
     setCapturing(false);
+    setStop(true);
+    
   }, [mediaRecorderRef, webcamRef, setCapturing]);
 
-  const handleDownload = React.useCallback(() => {
+  const handleDownload = React.useCallback( async () => {
     if (recordedChunks.length) {
       const blob = new Blob(recordedChunks, {
-        type: "video/webm"
+        type: "video/webm",
       });
-      const url = URL.createObjectURL(blob);
-      const a = document.createElement("a");
-      document.body.appendChild(a);
-      a.style = "display: none";
-      a.href = url;
-      a.download = "react-webcam-stream-capture.webm";
-      window.URL.revokeObjectURL(url);
+      const myFile = new File([blob], auth.currentUser.uid + ".webm", {
+        type: "video/webm",
+      });
       setRecordedChunks([]);
+      setVideo(myFile);
     }
   }, [recordedChunks]);
 
+  
+  React.useEffect( async () => {
+    setTimeout( ()=>{  }, 100);
+    sendData();
+  }, [stop, video]);
+
   return (
-    <div>
-      <button onClick={debug}>Click</button>
-      <form id="video" onSubmit={onSubmit} action="#" encType='media/webm'>
-        <input type='file' name='video' onChange={onChange} />
-        <input type='submit'></input>
+    <div className="camera">
+      <form id="video" onSubmit={onSubmit} action="#" encType='media/webm'>     
+        <h1> Record your profile video below! </h1>
+          <Webcam audio={false} ref={webcamRef} />
+          {capturing ? (<input type="button" id="stopButton" value="Stop Capture" onClick={handleStopCaptureClick} />) : (<input type="button" id="startButton" value="Start Capture" onClick={handleStartCaptureClick}/>)}
+          {recordedChunks.length > 0 && (<button type="submit" id="#downloadButton"> Next</button>)}
       </form>
-        <h1> Say Cheese! </h1>
-        <Webcam audio={false} ref={webcamRef} />
-        {capturing ? (
-        <button onClick={handleStopCaptureClick}>Stop Capture</button>
-        ) : (
-        <button onClick={handleStartCaptureClick}>Start Capture</button>
-        )}
-        {recordedChunks.length > 0 && (
-        <button onClick={handleDownload}>Download</button>
-        )}
-      
     </div>
   );
 };
-
-  
-
-
