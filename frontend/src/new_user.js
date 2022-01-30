@@ -69,7 +69,12 @@ class NewUser extends Component {
 
     render() {
         return (
-            <div>
+            <div style={{
+                marginTop: 80,
+                // TODO(Noah): I am beginning to not like what we are doing over here with this constant 80. 
+                // But, tis' hackathon code. And anything goes :)
+                padding: 80  
+            }}>
                 <h1> Welcome! </h1>
                 <p> Please enter your details below to finish creating your profile. </p>
                 <form onSubmit={this.handleSubmit} className='form'>
@@ -78,7 +83,8 @@ class NewUser extends Component {
                     <input onChange={this.setFirstName.bind(this)} value={this.state.first_name} type="text" name="first_name" placeholder="First Name" />
                     <input onChange={this.setLastName.bind(this)} value={this.state.last_name}  type="text" name="last_name" placeholder="Last Name" />
                     <textarea onChange={this.setBio.bind(this)} value={this.state.bio} maxLength="100px" type="text" name="bio" placeholder="Biography" />
-                    <button type="submit"> <Link to="/camera"> Next </Link> </button>
+                    <button className="btn btn-lg btn-primary btn-block"  
+                        type="submit"> <Link className="MyLink" to="/camera"> Next </Link> </button>
                 </form>
 
             </div>
