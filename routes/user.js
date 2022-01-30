@@ -11,36 +11,37 @@ import { VerifyUser } from '../server_util/authentication.js';
 // camera submit.
 userRouter.post('/csubmit', (req, res) => {
     let jwt = req.body.jwt;
+    console.log(req.body.busboy);
     VerifyUser(jwt).then((uid) => {
 
-        // We basically want to save to the disk the 
-        // file that we are being sent.
+        // // We basically want to save to the disk the 
+        // // file that we are being sent.
 
-        // Like, we know that we are going to get video/webm
-        var fstream;
-        req.pipe(req.busboy);
-        req.busboy.on('file', function (fieldname, file, filename) {
-            console.log("Uploading: " + filename);
+        // // Like, we know that we are going to get video/webm
+        // var fstream;
+        // req.pipe(req.busboy);
+        // req.busboy.on('file', function (fieldname, file, filename) {
+        //     console.log("Uploading: " + filename);
 
-            //Path where image will be uploaded
-            let uri = __dirname + '/img/' + filename
-            fstream = fs.createWriteStream(uri);
-            file.pipe(fstream);
-            fstream.on('close', function () {    
-                console.log("Upload Finished of " + filename);              
-                res.redirect('back');           //where to go next
-            });
+        //     //Path where image will be uploaded
+        //     let uri = __dirname + '/img/' + filename
+        //     fstream = fs.createWriteStream(uri);
+        //     file.pipe(fstream);
+        //     fstream.on('close', function () {    
+        //         console.log("Upload Finished of " + filename);              
+        //         res.redirect('back');           //where to go next
+        //     });
 
-            // Next, once we are done storing the file, we need to store into the SQL database
-            // precisely where this user should find their video on the file system.
-            // get and set user by uid
-            db('users').where({uid: user.uid}).update({
-                photo_uri: uri
-            }).returning('*').then(function(data) { /* who knows if we need this */
-                res.send(data);
-            });
+        //     // Next, once we are done storing the file, we need to store into the SQL database
+        //     // precisely where this user should find their video on the file system.
+        //     // get and set user by uid
+        //     db('users').where({uid: user.uid}).update({
+        //         video_uri: uri
+        //     }).returning('*').then(function(data) { /* who knows if we need this */
+        //         res.send(data);
+        //     });
 
-        });
+        // });
 
     }).catch((e) => {
         res.status(401).send("You are not authenticated");
