@@ -21,9 +21,8 @@ userRouter.post('/video', (req, res) => {
     uploadPath = __dirname + '/frontend/public/videos/' + sampleFile.name;
 
     sampleFile.mv(uploadPath, function(err) {
-        // if (!err) {return res.status(500).send(err);}
-    
-        //res.send('File uploaded!');
+        //if (!err) {return res.status(500).send(err);}
+        res.send('File uploaded!');
       });
 
     //add req.uid and stuff
