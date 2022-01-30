@@ -1,6 +1,6 @@
 import React from 'react';
 import Webcam from "react-webcam";
-
+import './camera.css';
 
 export default function Camera () { 
   const webcamRef = React.useRef(null);
@@ -46,27 +46,44 @@ export default function Camera () {
       a.href = url;
       a.download = "react-webcam-stream-capture.webm";
       a.click();
+
+      /*line above auto clicks the download thing. need to figure out how to store and upload right from here */
       window.URL.revokeObjectURL(url);
       setRecordedChunks([]);
     }
   }, [recordedChunks]);
 
+ 
+  /*TO DO:
+  - need to add connect and skip button functionality (const handle...)
+  - error handling
+
+   const handleSkipClick = React.useCallback() => {
+    (add functionality?)
+
+    onClick = {handleConnectButtonClick}
+    onClick = {handleSkipButtonClick}
+  };
+
+  */
+
   return (
-    <div>
-      <h1> Say Cheese! </h1>
-      <Webcam audio={false} ref={webcamRef} />
+    <div className="camera">
+      <h1> Record your profile video below! </h1>
+      <Webcam audio={true} ref={webcamRef} />
       {capturing ? (
-      <button onClick={handleStopCaptureClick}>Stop Capture</button>
+      <button id="stopButton" onClick={handleStopCaptureClick}>Stop Capture</button>
     ) : (
-      <button onClick={handleStartCaptureClick}>Start Capture</button>
+      <button id="startButton" onClick={handleStartCaptureClick}>Start Capture</button>
     )}
     {recordedChunks.length > 0 && (
-      <button onClick={handleDownload}>Download</button>
+      <button id="downloadButton" onClick={handleDownload}>Download</button>
     )}
+
+    <button class="connectButton" >Connect</button> 
+
+    <button class="skipButton" >Skip</button>
+
     </div>
   );
 };
-
-  
-
-

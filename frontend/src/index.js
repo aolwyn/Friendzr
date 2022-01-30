@@ -3,8 +3,7 @@ import ReactDOM from 'react-dom';
 import './index.css';
 import App from './App';
 import reportWebVitals from './reportWebVitals';
-import {render} from 'react-dom';
-import * as React from "react";
+
 
 // react router baby let's go.
 import { BrowserRouter } from "react-router-dom";
