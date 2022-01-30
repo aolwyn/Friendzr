@@ -50,7 +50,6 @@ authRouter.post('/create-user', (req, res) => {
       updated_at: req.body.updated_at
     };
 
-    console.log(user.uid);
     if(user.uid != null || user.uid != undefined) {
     db('users').where({uid: user.uid}).update({
       email: user.email,
@@ -92,7 +91,6 @@ authRouter.post('/create-user', (req, res) => {
     let user = {
       uid: req.body.uid
     };
-    console.log(user.uid);
     if(user.uid != null || user.uid != undefined) {
       db('users').where('uid', '=', user.uid).then(function(data) {
         res.send(data);
@@ -102,4 +100,28 @@ authRouter.post('/create-user', (req, res) => {
     }
   });
 
-export default authRouter; 
+  authRouter.post('/get-random-uid', (req, res) => {
+    db('users').select('uid').orderByRaw('RANDOM()').limit(1).then(function(data) {
+      res.send(data);
+    });
+  });
+
+  authRouter.post('/make-connection', (req, res) => {
+
+  db.schema.hasTable(req.body.uid).then(function(exists) {
+    if(!exists){
+      db.schema.createTable(req.body.uid, function(table) {
+        table.string('connect_uid');
+      }).then(function(table) {
+        console.log('Created Table', table);
+      });
+    } 
+    db(req.body.uid).insert({connect_uid: req.body.connect_uid}).returning('*').into(req.body.uid).then(function(data) {
+      res.send(data);
+    });
+  
+  });
+  
+});
+
+export default authRouter;

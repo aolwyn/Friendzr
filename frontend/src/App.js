@@ -8,6 +8,7 @@ import {
   Route
 } from "react-router-dom";
 import Messenger from "./Messenger.js";
+import Connect from './connect.js';
 // --------------------- FIREBASE CLIENT SDK ----------------------
 // Import the functions you need from the SDKs you need
 import { 
@@ -288,7 +289,7 @@ class App extends React.Component {
               </div>
             } />
           <Route path="/" element={
-            <Messenger />
+            <Connect />
           } />
 
           <Route path="/camera" element={
@@ -297,6 +298,8 @@ class App extends React.Component {
           <Route path='/new-user' element={
             <NewUser />
           } />
+
+          
         </Routes>
 
          {/* Extra login controls and info about user. */} 
