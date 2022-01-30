@@ -5,7 +5,7 @@ import { getAuth } from "firebase/auth";
 import { initializeApp } from "firebase/app";
 import { firebaseConfig } from "./config.js";
 import './camera.css';
-
+import {Link} from "react-router-dom";
 initializeApp(firebaseConfig);
 const auth = getAuth();
 
@@ -91,7 +91,7 @@ export default function Camera () {
         <h1> Record your profile video below! </h1>
           <Webcam audio={false} ref={webcamRef} />
           {capturing ? (<input type="button" id="stopButton" value="Stop Capture" onClick={handleStopCaptureClick} />) : (<input type="button" id="startButton" value="Start Capture" onClick={handleStartCaptureClick}/>)}
-          {recordedChunks.length > 0 && (<button type="submit" id="#downloadButton"> Next</button>)}
+          {recordedChunks.length > 0 && (<button type="submit" id="#downloadButton"> <Link to="/"> Next </Link></button>)}
       </form>
     </div>
   );

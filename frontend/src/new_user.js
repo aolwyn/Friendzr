@@ -2,9 +2,9 @@ import { Component } from 'react'
 import './new_user.css';
 import {  initializeApp } from "firebase/app";
 import axios from 'axios';
-import {getAuth } from "firebase/auth";
-import {firebaseConfig} from "./config.js";
-
+import { getAuth } from "firebase/auth";
+import { firebaseConfig} from "./config.js";
+import { Link } from "react-router-dom";
 class NewUser extends Component {
     constructor(props) {
         super(props);
@@ -78,7 +78,7 @@ class NewUser extends Component {
                     <input onChange={this.setFirstName.bind(this)} value={this.state.first_name} type="text" name="first_name" placeholder="First Name" />
                     <input onChange={this.setLastName.bind(this)} value={this.state.last_name}  type="text" name="last_name" placeholder="Last Name" />
                     <textarea onChange={this.setBio.bind(this)} value={this.state.bio} maxLength="100px" type="text" name="bio" placeholder="Biography" />
-                    <button type="submit"> Next </button>
+                    <button type="submit"> <Link to="/camera"> Next </Link> </button>
                 </form>
 
             </div>
