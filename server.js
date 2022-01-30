@@ -6,10 +6,12 @@ import cookieParser from 'cookie-parser';
 import authRouter from './routes/auth.js';
 import userRouter from './routes/user.js';
 import busboy from 'connect-busboy'; //middleware for form/file upload
+import fileUpload from 'express-fileupload';
 
 const port = 5000;
 
 const app = express();
+app.use(fileUpload());
 app.use(cors());
 app.use(busboy());
 app.use(cookieParser()); // populates req.cookies.
