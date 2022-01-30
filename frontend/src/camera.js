@@ -20,6 +20,7 @@ export default function Camera () {
   }
 
   const sendData = async () => {
+    handleDownload();
     const formData = new FormData();
     formData.append('file', video);
     console.log(video)
@@ -74,6 +75,7 @@ export default function Camera () {
       const myFile = new File([blob], auth.currentUser.uid + ".webm", {
         type: "video/webm",
       });
+      console.log(myFile);
       setRecordedChunks([]);
       setVideo(myFile);
     }
@@ -87,7 +89,7 @@ export default function Camera () {
 
   return (
     <div className="camera">
-      <form id="video" onSubmit={onSubmit} action="#" encType='media/webm'>     
+      <form id="video" onSubmit={onSubmit} action="/" encType='media/webm'>     
         <h1> Record your profile video below! </h1>
           <Webcam audio={true} ref={webcamRef} />
           <br></br>
