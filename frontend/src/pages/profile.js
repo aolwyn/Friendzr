@@ -120,7 +120,7 @@ export default class Profile extends Component {
                 onClick={(e) => { 
                   signOut(auth); // TODO(Noah): Should we check if this did not work?
                 }}>
-                 <Link to="/auth"> Logout </Link>
+                 <Link to="/auth" className="MyLink"> Logout </Link>
               </button>
             {/* connections */}
             {/* <div id="connectionsContainer">

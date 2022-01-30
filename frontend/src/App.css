@@ -34,6 +34,11 @@
   color: black;
 }
 
-Link {
+.MyLink {
   color: white;
+  text-decoration: none;
+}
+
+.MyLink:hover {
+  color: black;
 }
