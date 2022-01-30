@@ -131,7 +131,26 @@ class DirectMessenger extends React.Component {
   }
 
   componentDidMount() {
-    this.lastMessage.current.scrollIntoView();
+    this.lastMessage.current.scrollIntoView({alignToTop: false});
+  }
+
+  OnTextAreaSubmit(e, msg) {
+
+    e.preventDefault();
+
+    let newMessages = this.state.messages;
+    newMessages.push({
+      from: 16, contains: msg
+    });
+    
+    this.setState({
+      usrMsg: "",
+      messages: newMessages
+    });
+
+    // scroll to bottom again.
+    this.lastMessage.current.scrollIntoView({alignToTop: false});
+
   }
 
   render() {
@@ -222,12 +241,12 @@ class DirectMessenger extends React.Component {
               }} 
               onKeyDown={(e) => {
                 if (e.key === "Enter") {
-                  console.log('textarea submit')
+                  this.OnTextAreaSubmit(e, this.state.usrMsg);
                 }
               }}
             />
             <div className="Spacer" />
-            <button onClick={() => console.log('textarea submit')}
+            <button onClick={(e) => this.OnTextAreaSubmit(e, this.state.usrMsg)}
               style={{
               border: "none",
               backgroundColor: "white"
