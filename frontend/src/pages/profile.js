@@ -2,10 +2,9 @@ import axios from "axios";
 import React, { useState, Component } from "react";
 import {  initializeApp } from "firebase/app";
 import  './profile.css';
-import {getAuth } from "firebase/auth";
+import {getAuth, signOut} from "firebase/auth";
 import {firebaseConfig} from "../config.js";
-
-
+import {Link } from "react-router-dom";
 
 // NOTE(Noah): Profile is a sub-component of App and will be passed
 // needed information about the currently logged-in user.
@@ -67,7 +66,7 @@ export default class Profile extends Component {
   render() {
     const connections = this.state.connections;
     const final = [];
-
+    const auth = getAuth();
     for(let connect of this.state.connections){
       final.push(<li key={connect}>{connect}</li>)
     }
@@ -119,6 +118,13 @@ export default class Profile extends Component {
               </div>
             </div>
             <div className="Spacer"></div>
+            <button style={{margin:20}}
+                className="btn btn-lg btn-primary btn-block" 
+                onClick={(e) => { 
+                  signOut(auth); // TODO(Noah): Should we check if this did not work?
+                }}>
+                 <Link to="/auth"> Logout </Link>
+              </button>
             {/* connections */}
             {/* <div id="connectionsContainer">
               <h1>Connections</h1>
