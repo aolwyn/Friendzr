@@ -1,11 +1,13 @@
 import './App.css';
 import './signin.css';
 import Camera from "./camera.js"
+import NewUser from './new_user.js';
 import React, { useState } from "react";
 import {
   Routes,
   Route
 } from "react-router-dom";
+import Connect from './connect.js';
 
 import { Link } from "react-router-dom";
 import "bootstrap-icons/font/bootstrap-icons.css";
@@ -84,7 +86,7 @@ function SignUpButtonOnClick(e, email, password, confirmPassword) {
   let passwords_match = (password === confirmPassword);
 
   // TODO: Add validation feedback to the user, and make sure it is accessible.
-  if (email_good ) {
+  if (email_good) {
     if (passwords_match) {
     console.log('Email passed regex test');
     // TODO(Noah): Do something intelligent on user sign-in if unable to sign-in,
@@ -96,6 +98,8 @@ function SignUpButtonOnClick(e, email, password, confirmPassword) {
       const errorMessage = error.message;
       console.error(`Unable to sign in with errorCode=${errorCode} and errorMessage=${errorMessage}`);
     });
+
+    
     } else {
       console.error("Passwords do no match");
     }
@@ -151,7 +155,7 @@ function SignUpForm() {
       <button 
         className="btn btn-lg btn-primary btn-block" 
         onClick={(e) => {SignUpButtonOnClick(e, email, password, confirmPassword)}}>
-          Create Account
+          <Link to="/new-user"> Create Account </Link>
       </button>
     </form>
     
@@ -197,9 +201,11 @@ function LoginForm() {
         </label>
       </div>
       <button 
-        className="btn btn-lg btn-primary btn-block" 
+        className="btn btn-lg btn-primary btn-block"
+        
         onClick={(e) => {LoginButtonOnClick(e, email, password)}}>
-          Sign in
+          <Link to="/">Sign in</Link>
+
       </button>
       {/* TODO(Noah): Make the Google sign-in form accessible. 
         Also make the font on the button larger, and 
@@ -238,6 +244,7 @@ function NavBar() {
       justifyContent: "space-between",
       position: "fixed",
       zIndex: 2,
+      top: 0,
       width: "100%"
     }}>
       <div style={{
@@ -336,6 +343,9 @@ class App extends React.Component {
                 <p className="mt-5 mb-3 text-muted">&copy; 2022</p>
               </div>
             } />
+          <Route path="/" element={
+            <Connect />
+          } />
           <Route path="/messenger" element={
             <Messenger />
           } />
@@ -347,6 +357,11 @@ class App extends React.Component {
           <Route path="/camera" element={
             <Camera />
           } />
+          <Route path='/new-user' element={
+            <NewUser />
+          } />
+
+          
         </Routes>
 
          {/* Extra login controls and info about user. */} 

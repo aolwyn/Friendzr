@@ -10,6 +10,33 @@ let user = {
     is_online: true
 }
 
+//initalize the database
+db.sync({ force: true }).then(() => {
+    console.log('Database synced');
+    db.insert(user).into('users').then(function(data) {
+        console.log(data);
+    });
+});
+
+db.schema.hasTable('users').then(function(exists) {
+    if (!exists) {
+        db.schema.createTable('users', function(user) {
+            user.string('uid');
+            user.string('email');
+            user.string('first_name');
+            user.string('last_name');
+            user.string('video_uri');
+            user.string('photo_uri');
+            user.string('bio');
+            user.boolean('is_online');
+            user.string('created_at');
+            user.string('updated_at');
+        }).then(function(table) {
+            console.log('Created Table', table);
+        });
+    }
+});
+
 //insert user
 db('users').insert(user).returning('*').into('users').then(function(data) {
     console.log(data);
