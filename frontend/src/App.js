@@ -7,8 +7,13 @@ import {
   Routes,
   Route
 } from "react-router-dom";
-import Messenger from "./Messenger.js";
 import Connect from './connect.js';
+
+import { Link } from "react-router-dom";
+import "bootstrap-icons/font/bootstrap-icons.css";
+import Messenger from "./pages/Messenger.js";
+import Profile from "./pages/profile.js";
+
 // --------------------- FIREBASE CLIENT SDK ----------------------
 // Import the functions you need from the SDKs you need
 import { 
@@ -150,7 +155,7 @@ function SignUpForm() {
       <button 
         className="btn btn-lg btn-primary btn-block" 
         onClick={(e) => {SignUpButtonOnClick(e, email, password, confirmPassword)}}>
-          Create Account
+          <Link to="/new-user"> Create Account </Link>
       </button>
     </form>
     
@@ -196,9 +201,11 @@ function LoginForm() {
         </label>
       </div>
       <button 
-        className="btn btn-lg btn-primary btn-block" 
+        className="btn btn-lg btn-primary btn-block"
+        
         onClick={(e) => {LoginButtonOnClick(e, email, password)}}>
-          Sign in
+          <Link to="/">Sign in</Link>
+
       </button>
       {/* TODO(Noah): Make the Google sign-in form accessible. 
         Also make the font on the button larger, and 
@@ -221,6 +228,50 @@ function BackendTest(idToken) {
   .catch(function (error) {
     console.log(error);
   });
+}
+
+function NavBar() {
+  return (
+    <div style={{
+      background: "linear-gradient(to right, #5E17EB, #ffffff 200%)",
+      textAlign: "left",
+      height: 80,
+      paddingLeft: 24,
+      paddingRight: 24,
+      display: "flex",
+      flexDirection: "row",
+      alignItems: "center",
+      justifyContent: "space-between",
+      position: "fixed",
+      zIndex: 2,
+      top: 0,
+      width: "100%"
+    }}>
+      <div style={{
+        display: "flex",
+        flexDirection: "row"
+      }}>
+        <div style={{
+          backgroundColor: "white",
+          borderRadius: "50%",
+          width: 40,
+          height: 40
+        }}>
+          <img src="freindzr-transparent.png" width={40}/>
+        </div>
+        <div className='Spacer' ></div>
+        <Link className='NavLink' to="/">Connect</Link>
+        <div className='Spacer' ></div>
+        <Link className='NavLink' to="/messenger">Messenger</Link>
+      </div>
+      <Link className='NavLink' to="/profile">
+        <svg xmlns="http://www.w3.org/2000/svg" width="40" height="40" fill="white" class="bi bi-person-fill" viewBox="0 0 16 16">
+          <path d="M3 14s-1 0-1-1 1-4 6-4 6 3 6 4-1 1-1 1H3zm5-6a3 3 0 1 0 0-6 3 3 0 0 0 0 6z"/>
+        </svg>
+      </Link>
+    </div>
+
+  );
 }
 
 class App extends React.Component {
@@ -263,9 +314,13 @@ class App extends React.Component {
 
   render() {
     return (
+      <React.Fragment>
+      <NavBar />
       <div className="App">
 
-        <Routes>
+        <Routes style={{
+          order:2
+        }}>
           <Route path="/auth" element={
               <div style={{
                 position: "relative"
@@ -291,6 +346,13 @@ class App extends React.Component {
           <Route path="/" element={
             <Connect />
           } />
+          <Route path="/messenger" element={
+            <Messenger />
+          } />
+
+          <Route path="/profile" element={
+            <Profile />
+          } />
 
           <Route path="/camera" element={
             <Camera />
@@ -303,34 +365,35 @@ class App extends React.Component {
         </Routes>
 
          {/* Extra login controls and info about user. */} 
-        {((this.state.loggedIn) ?
-          <div style={{
-            display: "flex",
-            flexDirection: "column",
-            padding: 20
-          }}>
-            <span>User is logged in.</span>
-            <span>Name of user: {this.state.username}</span>
-            <span>User verified: {(this.state.emailVerified) ? "Yes" : "No"}</span>
-            <div><button style={{marginTop:20}}
-              className="btn btn-lg btn-primary btn-block"
-              onClick={(e) => {
-                // TODO(Noah): Certainly would be nice for there to be a popup here
-                // that's like, "Email verified!"
-                sendEmailVerification(auth.currentUser);
-              }}>Send Verification Email</button>
-            </div>
-            <div><button style={{margin:20}}
-              className="btn btn-lg btn-primary btn-block" 
-              onClick={(e) => { 
-                signOut(auth); // TODO(Noah): Should we check if this did not work?
-              }}>
-                Logout
-            </button></div>
-          </div> : <div></div>
-        )}
+          {/*((this.state.loggedIn) ?
+            <div style={{
+              display: "flex",
+              flexDirection: "column",
+              padding: 20
+            }}>
+              <span>User is logged in.</span>
+              <span>Name of user: {this.state.username}</span>
+              <span>User verified: {(this.state.emailVerified) ? "Yes" : "No"}</span>
+              <div><button style={{marginTop:20}}
+                className="btn btn-lg btn-primary btn-block"
+                onClick={(e) => {
+                  // TODO(Noah): Certainly would be nice for there to be a popup here
+                  // that's like, "Email verified!"
+                  sendEmailVerification(auth.currentUser);
+                }}>Send Verification Email</button>
+              </div>
+              <div><button style={{margin:20}}
+                className="btn btn-lg btn-primary btn-block" 
+                onClick={(e) => { 
+                  signOut(auth); // TODO(Noah): Should we check if this did not work?
+                }}>
+                  Logout
+              </button></div>
+            </div> : <div></div>
+              )*/}
 
       </div>
+      </React.Fragment>
     );
   }
 }

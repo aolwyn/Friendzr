@@ -1,4 +1,40 @@
 .App {
   text-align: center;
   margin: 10vw;
+  display: flex;
+  flex-direction: column;
+  height: 100vh;
+}
+
+.Card {
+  box-shadow: 0 4px 8px 0 rgba(0,0,0,0.2);
+}
+
+.Spacer {
+  width: 20px;
+  height: 20px;
+}
+
+.ProfilePhoto {
+  border-radius: 50% ;
+  width: 128px;
+  height: 128px;
+  background-position: center;
+  background-image: url("https://www.hollywoodreporter.com/wp-content/uploads/2019/03/avatar-publicity_still-h_2019.jpg?w=1024");
+  border-style: solid;
+  border-color: rgb(255, 255, 255);
+}
+
+.NavLink {
+  font-size: 1.25em;
+  color: white;
+  text-decoration: none;
+}
+
+.NavLink:hover {
+  color: black;
+}
+
+Link {
+  color: white;
 }

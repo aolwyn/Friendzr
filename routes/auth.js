@@ -106,8 +106,7 @@ authRouter.post('/create-user', (req, res) => {
     });
   });
 
-  authRouter.post('/make-connection', (req, res) => {
-
+authRouter.post('/make-connection', (req, res) => {
   db.schema.hasTable(req.body.uid).then(function(exists) {
     if(!exists){
       db.schema.createTable(req.body.uid, function(table) {
@@ -119,9 +118,13 @@ authRouter.post('/create-user', (req, res) => {
     db(req.body.uid).insert({connect_uid: req.body.connect_uid}).returning('*').into(req.body.uid).then(function(data) {
       res.send(data);
     });
-  
   });
-  
+});
+
+authRouter.post('/get-connections', (req, res) => {
+  db(req.body.uid).select().then(function(data) {
+    res.send(data);
+  });
 });
 
 export default authRouter;
