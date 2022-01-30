@@ -7,6 +7,7 @@ import {
   Route
 } from "react-router-dom";
 
+import { Link } from "react-router-dom";
 import "bootstrap-icons/font/bootstrap-icons.css";
 import Messenger from "./pages/Messenger.js";
 import Profile from "./pages/profile.js";
@@ -223,6 +224,49 @@ function BackendTest(idToken) {
   });
 }
 
+function NavBar() {
+  return (
+    <div style={{
+      background: "linear-gradient(to right, #5E17EB, #ffffff 200%)",
+      textAlign: "left",
+      height: 80,
+      paddingLeft: 24,
+      paddingRight: 24,
+      display: "flex",
+      flexDirection: "row",
+      alignItems: "center",
+      justifyContent: "space-between",
+      position: "fixed",
+      zIndex: 2,
+      width: "100%"
+    }}>
+      <div style={{
+        display: "flex",
+        flexDirection: "row"
+      }}>
+        <div style={{
+          backgroundColor: "white",
+          borderRadius: "50%",
+          width: 40,
+          height: 40
+        }}>
+          <img src="freindzr-transparent.png" width={40}/>
+        </div>
+        <div className='Spacer' ></div>
+        <Link className='NavLink' to="/">Connect</Link>
+        <div className='Spacer' ></div>
+        <Link className='NavLink' to="/messenger">Messenger</Link>
+      </div>
+      <Link className='NavLink' to="/profile">
+        <svg xmlns="http://www.w3.org/2000/svg" width="40" height="40" fill="white" class="bi bi-person-fill" viewBox="0 0 16 16">
+          <path d="M3 14s-1 0-1-1 1-4 6-4 6 3 6 4-1 1-1 1H3zm5-6a3 3 0 1 0 0-6 3 3 0 0 0 0 6z"/>
+        </svg>
+      </Link>
+    </div>
+
+  );
+}
+
 class App extends React.Component {
 
   constructor() {
@@ -265,6 +309,9 @@ class App extends React.Component {
     return (
       <div className="App">
 
+        <NavBar />
+        <div style={{height:80}}></div>
+
         <Routes>
           <Route path="/auth" element={
               <div style={{
@@ -288,7 +335,7 @@ class App extends React.Component {
                 <p className="mt-5 mb-3 text-muted">&copy; 2022</p>
               </div>
             } />
-          <Route path="/" element={
+          <Route path="/messenger" element={
             <Messenger />
           } />
 

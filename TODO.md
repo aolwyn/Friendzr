@@ -25,6 +25,7 @@
   - There must exist a method to play transcripted videos.
 
 - Frontend Work -> <span style="color:red;">NOAH</span>
+  - Nav bar -> <span style="color:green;">COMPLETE.</span> 
   - Implement the "Edit my Profile" by the design -> <span style="color:green;">PRETTY MUCH DONE</span>
   - Implement the "Messenger" by the design 
   - Implement the "Lef/Right Swipe Flow" by the design
