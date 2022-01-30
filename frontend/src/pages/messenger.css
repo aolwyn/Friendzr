@@ -1,0 +1,10 @@
+.slimButton {
+    background-color: white;
+    border: none;
+    padding: 20px;
+    padding-right: 40px;
+}
+
+.slimButton:hover {
+    background-color: lavender !important;
+}

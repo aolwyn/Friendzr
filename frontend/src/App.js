@@ -155,7 +155,7 @@ function SignUpForm() {
       <button 
         className="btn btn-lg btn-primary btn-block" 
         onClick={(e) => {SignUpButtonOnClick(e, email, password, confirmPassword)}}>
-          <Link to="/new-user"> Create Account </Link>
+          <Link to="/new-user" className="MyLink"> Create Account </Link>
       </button>
     </form>
     
@@ -204,7 +204,7 @@ function LoginForm() {
         className="btn btn-lg btn-primary btn-block"
         
         onClick={(e) => {LoginButtonOnClick(e, email, password)}}>
-          <Link to="/">Sign in</Link>
+          <Link className="MyLink" to="/">Sign in</Link>
 
       </button>
       {/* TODO(Noah): Make the Google sign-in form accessible. 
@@ -264,11 +264,21 @@ function NavBar() {
         <div className='Spacer' ></div>
         <Link className='NavLink' to="/messenger">Messenger</Link>
       </div>
-      <Link className='NavLink' to="/profile">
-        <svg xmlns="http://www.w3.org/2000/svg" width="40" height="40" fill="white" class="bi bi-person-fill" viewBox="0 0 16 16">
-          <path d="M3 14s-1 0-1-1 1-4 6-4 6 3 6 4-1 1-1 1H3zm5-6a3 3 0 1 0 0-6 3 3 0 0 0 0 6z"/>
-        </svg>
-      </Link>
+
+      { (auth.currentUser == null) ? 
+        <Link className='NavLink' to="/auth">
+          <svg xmlns="http://www.w3.org/2000/svg" width="40" height="40" fill="white" class="bi bi-person-fill" viewBox="0 0 16 16">
+            <path d="M3 14s-1 0-1-1 1-4 6-4 6 3 6 4-1 1-1 1H3zm5-6a3 3 0 1 0 0-6 3 3 0 0 0 0 6z"/>
+          </svg>
+        </Link> :
+        <Link className='NavLink' to="/profile">
+          <svg xmlns="http://www.w3.org/2000/svg" width="40" height="40" fill="white" class="bi bi-person-fill" viewBox="0 0 16 16">
+            <path d="M3 14s-1 0-1-1 1-4 6-4 6 3 6 4-1 1-1 1H3zm5-6a3 3 0 1 0 0-6 3 3 0 0 0 0 6z"/>
+          </svg>
+        </Link>
+      }
+      
+
     </div>
 
   );
@@ -323,7 +333,8 @@ class App extends React.Component {
         }}>
           <Route path="/auth" element={
               <div style={{
-                position: "relative"
+                position: "relative",
+                marginTop: 160,
               }}>
                 <div style={{
                   display: "flex",
