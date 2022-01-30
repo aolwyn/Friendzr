@@ -1,3 +1,108 @@
+# MVP
+- Should work on mobile and desktop.
+- Should look beautiful.
+- Should be performant.
+- Should be secure.
+- Should be accessible.
+  - Because if everyone cannot use our platform, how is it promoting interconnectedness?
+- Should be functional.
+- Should solve the problem of "matching with the right people as fast as possible".
+
+# TODO
+
+- Authentication.
+  - Logging in with email and password -> <span style="color:green;">COMPLETE.</span>
+  - Logged-in state is valid on App component -> <span style="color:green;">COMPLETE.</span> 
+  - Authentication persistence -> <span style="color:green;">COMPLETE.</span>
+  - Creating account with email and password -> <span style="color:green;">COMPLETE.</span>  
+  - Users logging out -> <span style="color:green;">COMPLETE.</span>
+  - Email verification -> <span style="color:green;">COMPLETE.</span>
+
+- User profile videos are automatically transcribed.
+  - Users need to be able to record videos on the client. -> <span style="color:green;">COMPLETE.</span> 
+  - Then upload these to the backend for local storage and referecening via a uri in the SQL databse -> <span style="color:red;">SINAN</span>
+  - These videos must be automatically transcribed.
+  - There must exist a method to play transcripted videos.
+
+- Frontend Work -> <span style="color:red;">NOAH</span>
+  - Implement the "Edit my Profile" by the design
+  - Implement the "Messenger" by the design 
+  - Implement the "Lef/Right Swipe Flow" by the design
+  - Implement the "Login/Signup" by the design
+  - Implement the "First Time" by the design
+
+- Direct Messaging -> <span style="color:red;">NOAH</span>
+  - Load connections from database.
+  - Load archived messages with connections from database.
+  - Load new messages from active conversations.
+  - Send messages to another user.
+  - userCurrentlyOnline flag properly set.
+
+- First Time Opening App
+  - Guided/sequenced process
+    - Recording your 30 second video.
+    - Entering in details for your profile.
+  - When the user first signs up, put user information in the SQL database -> <span style="color:red;">SINAN</span>
+
+
+- Swipe Right/Left Flow
+  - Load random users from database as potential matches.
+    - And their profile data.
+  - These are sequenced (video first, then profile)
+    - Play video
+    - Display profile
+  - Control logic for swipe left/right, then adding as a match.
+    - Feedback to the user (like a checkmark -> yes, x -> for no).
+
+- UI/UX Design
+  - "First Time" Design 
+  - "Messenger" Design -> <span style="color:green;">COMPLETE.</span>
+  - "Edit my Profile" Design -> <span style="color:green;">COMPLETE.</span>
+  - "Left/Right Swipe Flow" Design -> <span style="color:red;">SINAN</span>
+  - "Login/Signup" Design -> <span style="color:green;">COMPLETE.</span>
+    - Note that for this, there is no explicit deisign. We have decided to go with the current implementation, but with the color pallete applied. 
+
+- Final Touches
+  - OAuth2/Firebase for Google authentication. -> <span style="color:red;">NOAH</span>
+  - Password reset -> <span style="color:red;">NOAH</span>
+  - Change email flow to be more "clean". -> <span style="color:red;">NOAH</span>
+    - See: https://firebase.google.com/docs/auth/web/passing-state-in-email-actions
+    - Ensure it is sending from custom domain.
+    - Are we going to update the email verified step if they are logged in, then verify?
+
+# How to make a Website Accessible
+https://developer.mozilla.org/en-US/docs/Learn/Accessibility/What_is_accessibility
+
+- Slow Network Connections
+- Semantic HTML?
+
+### Targets to Consider
+- People with visual impairments
+  - These people use:
+    - Screen readers https://developer.mozilla.org/en-US/docs/Learn/Tools_and_testing/Cross_browser_testing/Accessibility#screenreaders
+    - Zoom
+  - These people are:
+    - Blind
+    - Low-level vision
+    - Color-blind
+- People with hearing impairments
+  - These people use:
+    - Video transcription and captioning
+  - These people are:
+    - Deaf
+    - hard of hearing
+- People with mobility impairments
+  - These people use:
+    - Keyboard control of websites https://developer.mozilla.org/en-US/docs/Learn/Tools_and_testing/Cross_browser_testing/Accessibility#using_native_keyboard_accessibility
+  - These people have:
+    - Physical weakness and can therefore not use a mouse
+- People with cognitive impairments
+  - Designing for these people:
+    - Generally good design. i.e. simple, right to the point, etc
+  - The people might have:
+    - Dyslexia
+    - ADHD
+
 # Tech
 
 - For good-looking frontend we are thinking of using Bootstrap.
@@ -54,103 +159,3 @@
     }
   ```
 
-
-# MVP
-
-## Goals
-- Should work on mobile and desktop.
-- Should look beautiful.
-- Should be performant.
-- Should be secure.
-- Should be accessible.
-  - Because if everyone cannot use our platform, how is it promoting interconnectedness?
-- Should be functional.
-- Should solve the problem of "matching with the right people as fast as possible".
-
-## Functional Requirements
-- Should work on both mobile browser clients and desktop browser clients.
-- Auth types: email/password, Google, Apple.
-- User profile videos are automatically transcribed.
-- Ability to browse other profiles. Swipe either left or right.
-- Direct messaging with those you have matched with.
-- Guided activity for creating account details.
-  - Ability to record 30-second video and upload to profile.
-
-# Task Distribution
-
-## Noah - Backend
-
-Do the tasks in the order as given.
-
-- Authentication.
-  - Logging in with email and password -> COMPLETE.
-  - Logged-in state is valid on App component -> COMPLETE. 
-  - Authentication persistence -> COMPLETE.
-  - Creating account with email and password -> COMPLETE.  
-  - Users logging out -> COMPLETE.
-  - Email verification -> COMPLETE (for now).
-    
-- Direct Messaging
-- Final Touches
-  - Password reset.
-  - Change email flow to be more "clean". See: https://firebase.google.com/docs/auth/web/passing-state-in-email-actions
-    - Ensure it is sending from custom domain.
-    - Are we going to update the email verified step if they are logged in, then verify?  
-  - OAuth2 for Google.
-  - If no devoper account needed, add "Sign in with Apple".
-  - Other TODO that "came up" during development.
-  
-
-## Adam - Frontend
-- Recording on the client.
-- Swipe Stuff -> main "flow" of the app.
-
-## Sinan - DevOps
-- Design of the GUI.
-- Frontend CSS styling stuff.
-- Managing Firebase.
-- Managing Google Cloud.
-- Express Server.
-- Cockroach DB.
-
-# Research "Corner"
-
-## How to make a Website Accessible
-https://developer.mozilla.org/en-US/docs/Learn/Accessibility/What_is_accessibility
-
-- Slow Network Connections
-- Semantic HTML?
-
-### Targets to Consider
-- People with visual impairments
-  - These people use:
-    - Screen readers https://developer.mozilla.org/en-US/docs/Learn/Tools_and_testing/Cross_browser_testing/Accessibility#screenreaders
-    - Zoom
-  - These people are:
-    - Blind
-    - Low-level vision
-    - Color-blind
-- People with hearing impairments
-  - These people use:
-    - Video transcription and captioning
-  - These people are:
-    - Deaf
-    - hard of hearing
-- People with mobility impairments
-  - These people use:
-    - Keyboard control of websites https://developer.mozilla.org/en-US/docs/Learn/Tools_and_testing/Cross_browser_testing/Accessibility#using_native_keyboard_accessibility
-  - These people have:
-    - Physical weakness and can therefore not use a mouse
-- People with cognitive impairments
-  - Designing for these people:
-    - Generally good design. i.e. simple, right to the point, etc
-  - The people might have:
-    - Dyslexia
-    - ADHD
-
-
-## Developing for Mobile and Desktop
-
-## How to Make it Beautiful
-
-## How to make it Secure
