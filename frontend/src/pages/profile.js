@@ -74,6 +74,11 @@ export default class Profile extends Component {
 
     return (
       <div id="topContainer">
+
+        <div style={{minHeight:80}}>
+          a
+        </div>
+
         {/* <button onClick={this.clicker}>TESTER</button> */}
         {/* top banner */}
         <div style={{
@@ -81,8 +86,6 @@ export default class Profile extends Component {
           width: "135%",
           height: "200px",
           padding: "1em",
-          "margin-left": "-13%",
-          "margin-top": "-10%",
         }}>        
         </div>   
 
