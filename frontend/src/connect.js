@@ -60,17 +60,40 @@ class Connect extends Component {
 
     render() {
         return(
-            <div className="page">
-                <h1>{this.state.first_name} {this.state.last_name}</h1>
-                <p>{this.state.bio}</p>
-                {this.state.uid ? 
-                <video width="50%" height="37.5%" controls autoPlay>
-                    <source src={ 'http://localhost:3000' + __dirname + 'src/videos/' + this.state.uid + '.webm'}></source>
-                </video> : <p>null</p>
-                }
-                <button className="connectButton"onClick={this.onConnectClick}>Connect</button> 
-
-                <button className="skipButton" onClick={this.onSkipClick} >Skip</button>
+            <div style={{
+                width: "100%",
+                display: "flex",
+                flexDirection: "column",
+                alignItems: "center"
+            }}>
+                <div className="page">
+                    <h1>{this.state.first_name} {this.state.last_name}</h1>
+                    <div className='Spacer'></div>
+                    {this.state.uid ? 
+                    <video width="50%" height="37.5%" controls autoPlay>
+                        <source src={ 'http://localhost:3000' + __dirname + 'src/videos/' + this.state.uid + '.webm'}></source>
+                    </video> : <p>null</p>
+                    }
+                    <div style={{
+                        display: "flex",
+                        flexDirection: "column",
+                        padding: 40,
+                        width: "50%",
+                        textAlign: "left"
+                    }}>
+                        <h3>Bio</h3>
+                        <p>{this.state.bio}</p>
+                    </div>
+                    <div style={{
+                        display: "flex",
+                        flexDirection: "row",
+                        padding: 40
+                    }}>
+                        <button className="connectButton"onClick={this.onConnectClick}>Connect</button> 
+                        <div className='Spacer'></div>
+                        <button className="skipButton" onClick={this.onSkipClick} >Skip</button>
+                    </div>
+                </div>
             </div>
         );
     
