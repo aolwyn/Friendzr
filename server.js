@@ -7,6 +7,9 @@ import authRouter from './routes/auth.js';
 import db from './database.js';
 import userRouter from './routes/user.js';
 import fileUpload from 'express-fileupload';
+import { dirname } from 'path';
+import { fileURLToPath } from 'url';
+const __dirname = dirname(fileURLToPath(import.meta.url));
 
 db.schema.hasTable('users').then(function(exists) {
   if (!exists) {
@@ -38,8 +41,8 @@ app.use(morgan('dev')); // give back development data,
 app.use(express.json()) // for parsing application/json
 
 // TODO(Noah): WHEN WE ARE DONE BUILDING THE PROJECT
-// app.use(express.static(`${__dirname}/build`));
-// app.get(/.*/, (req, res) => res.sendFile(`build/index.html`, { root: __dirname }));
+app.use(express.static(`${__dirname}/frontend/build`));
+app.get(/.*/, (req, res) => res.sendFile(`frontend/build/index.html`, { root: __dirname }));
 
 app.use('/api/auth', authRouter);
 app.use('/api/user', userRouter);

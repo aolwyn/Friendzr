@@ -26,13 +26,6 @@ userRouter.post('/video', (req, res) => {
         //res.send('File uploaded!');
       });
 
-    //add req.uid and stuff
-
-    // db('users').where({uid: user.uid}).update({
-    //     video_uri: uri
-    // }).returning('*').then(function(data) { /* who knows if we need this */
-    //     res.send(data);
-    // });
 });
 
 export default userRouter;
