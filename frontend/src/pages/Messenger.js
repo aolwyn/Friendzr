@@ -80,7 +80,7 @@ class Connections extends React.Component {
           <button style={{ 
             backgroundColor: (connection.uid == this.props.talkingTo) ? "aliceblue" : "white"
            }} className="slimButton" key={index} onClick={ () => {
-             console.log(connection.name);
+            //  console.log(connection.name);
              this.props.talkingToCallback(connection.uid);
             } }>
             <div style={{

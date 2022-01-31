@@ -14,8 +14,8 @@ function Connection(props) {
   
   if (props.uid != null) {
     // Call API here to get user information
-    console.log(`posting to http://localhost:5000/api/auth/get-user with uid=${props.uid}`);
-    axios.post("http://localhost:5000/api/auth/get-user", { uid: props.uid })
+    // console.log(`posting to /api/auth/get-user with uid=${props.uid}`);
+    axios.post("/api/auth/get-user", { uid: props.uid })
     .then((res) => {
       setFirst(res.data[0].first_name);
       setLast(res.data[0].last_name);
@@ -49,7 +49,7 @@ export default function Profile(props) {
 
     if (props.uid != null) {
       // good to load in the user profile now.
-      axios.post("http://localhost:5000/api/auth/get-user", { uid: props.uid }).
+      axios.post("/api/auth/get-user", { uid: props.uid }).
       then((res)=> {
         setBio(res.data[0].bio);
         setFirstName(res.data[0].first_name);
@@ -57,12 +57,12 @@ export default function Profile(props) {
         setEmail(res.data[0].email);
       });
 
-      axios.post("http://localhost:5000/api/auth/get-connections", { uid: props.uid })
+      axios.post("/api/auth/get-connections", { uid: props.uid })
       .then((connectRes) => {
         let connectionArr = []
         for (let connect of connectRes.data){
-          console.log('connect', connect);
-          console.log(`adding connection of uid=${connect.connect_uid}`);
+          // console.log('connect', connect);
+          // console.log(`adding connection of uid=${connect.connect_uid}`);
           connectionArr.push(connect.connect_uid)
         }
 

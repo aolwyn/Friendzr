@@ -3,5 +3,3 @@ server_util/config.js
 server_util/serviceAccountKey.js
 frontend/public/vidoes/*.webm
 .vscode/
-.vscode
-.vscode/*

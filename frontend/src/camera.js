@@ -29,9 +29,9 @@ export default function Camera () {
       let video = handleDownload();
       const formData = new FormData();
       formData.append('file', video);
-      console.log("videoFile:", video);
+      // console.log("videoFile:", video);
       auth.currentUser.getIdToken(true).then(function(idToken) {
-        axios.post('http://localhost:5000/api/user/video', formData, {
+        axios.post('/api/user/video', formData, {
           jwt: idToken,
           headers: {
             'Content-Type': 'multipart/form-data'
@@ -62,7 +62,7 @@ export default function Camera () {
   // are seen again, it uses the cached return value to speeed things up.
   const handleDataAvailable = React.useCallback(
     ({ data }) => {
-      console.log('handleDataAvailable was called. mediaRecording is flushing chunks');
+      // console.log('handleDataAvailable was called. mediaRecording is flushing chunks');
       if (data.size > 0) {
         setRecordedChunks((prev) => prev.concat(data));
       }
@@ -78,7 +78,7 @@ export default function Camera () {
 
   const handleDownload = () => {
 
-    console.log("recordedChunks at time of handleDownload", recordedChunks);
+    // console.log("recordedChunks at time of handleDownload", recordedChunks);
 
     if (recordedChunks.length) {
       const blob = new Blob(recordedChunks, {
@@ -87,7 +87,7 @@ export default function Camera () {
       const myFile = new File([blob], auth.currentUser.uid + ".webm", {
         type: "video/webm",
       }); // Not async.
-      console.log("File from blobs", myFile);
+      // console.log("File from blobs", myFile);
       // setRecordedChunks([]);
       return myFile;
     }
@@ -106,7 +106,7 @@ export default function Camera () {
         // is being sent to the server.
 
         // Now we tell React Router to redirect back to '/'
-        console.log('Video uploaded to backend');
+        // console.log('Video uploaded to backend');
         setRedirect(true);
 
       }).catch((e) => console.error('Video not uploaded to backend'));  

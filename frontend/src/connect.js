@@ -20,7 +20,7 @@ function VideoPlayer(props) {
     return (
         props.uid ?
         <video ref={refContainer} width="50%" height="37.5%" controls autoPlay>
-            <source src={ 'http://localhost:3000' + __dirname + 'videos/' + props.uid + '.webm'}></source>
+            <source src={ '/' + __dirname + 'videos/' + props.uid + '.webm'}></source>
         </video> : <p>null</p>
     );
 
@@ -41,11 +41,11 @@ class Connect extends Component {
         this.onConnectClick = this.onConnectClick.bind(this);
     }
     async componentDidMount() {
-        const res = await axios.post('http://localhost:5000/api/auth/get-random-uid');
+        const res = await axios.post('/api/auth/get-random-uid');
         this.setState({ uid: res.data[0].uid });
         
-        const userRes = await axios.post('http://localhost:5000/api/auth/get-user', {uid: this.state.uid});
-        console.log(userRes);
+        const userRes = await axios.post('/api/auth/get-user', {uid: this.state.uid});
+        // console.log(userRes);
         this.setState({
             first_name: userRes.data[0].first_name,
             last_name: userRes.data[0].last_name,
@@ -57,13 +57,13 @@ class Connect extends Component {
     async onSkipClick(){
         
         /*  Insert Database Access to change to Next User   */ 
-        const res = await axios.post('http://localhost:5000/api/auth/get-random-uid');
+        const res = await axios.post('/api/auth/get-random-uid');
         this.setState({ 
             uid: res.data[0].uid 
         });
         
-        const userRes = await axios.post('http://localhost:5000/api/auth/get-user', {uid: this.state.uid});
-        console.log(userRes);
+        const userRes = await axios.post('/api/auth/get-user', {uid: this.state.uid});
+        // console.log(userRes);
         this.setState({
             first_name: userRes.data[0].first_name,
             last_name: userRes.data[0].last_name,
@@ -75,11 +75,11 @@ class Connect extends Component {
     async onConnectClick() {
     /* InsertDatabase Access to change to Messenger Page in Connection with Connected User */
         const auth = getAuth();
-        const res = await axios.post('http://localhost:5000/api/auth/make-connection', {
+        const res = await axios.post('/api/auth/make-connection', {
             connect_uid: this.state.uid,
             uid: auth.currentUser.uid
         });
-        console.log(res);
+        // console.log(res);
     }
 
     render() {
