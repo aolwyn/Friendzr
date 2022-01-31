@@ -10,6 +10,33 @@
 
 # TODO
 
+- Final Touches
+  
+  - Create user form -> <span style="color:green;">COMPLETE.</span>
+    - Button color change.
+    - Lower this form.
+  - Remove "fuck" messages from the messenger. 
+  - Make the text area like, remove text on submit for now.
+  - Make the icon in the top left clickable.
+
+
+  - User Feedback:
+    - Make clicking the "Connect" button do something.
+    - Add user feedback for clicking the "Skip" button.
+    - When I logout it should say, "you are now logged out"
+    - Tell the user that they have not enterered valid forms
+      - Login / auth page.
+  
+  
+   
+  - Add the connections that you have in the profile section -> <span style="color:green;">COMPLETE.</span>
+
+  Not so important:
+  - Need to drop users in search who are already connections.
+  - When I create a new account, it should play a quick animation where it goes: "Welcome to Friendzr"
+ 
+
+
 - Authentication.
   - Logging in with email and password -> <span style="color:green;">COMPLETE.</span>
   - Logged-in state is valid on App component -> <span style="color:green;">COMPLETE.</span> 

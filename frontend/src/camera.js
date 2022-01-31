@@ -5,7 +5,7 @@ import { getAuth } from "firebase/auth";
 import { initializeApp } from "firebase/app";
 import { firebaseConfig } from "./config.js";
 import './camera.css';
-import {Link} from "react-router-dom";
+import {Link, Navigate} from "react-router-dom";
 initializeApp(firebaseConfig);
 const auth = getAuth();
 
@@ -13,6 +13,7 @@ export default function Camera () {
   const [stop, setStop] = useState(false);
   const webcamRef = React.useRef(null);
   const mediaRecorderRef = React.useRef(null);
+  const [redirect, setRedirect] = React.useState(false);
   const [capturing, setCapturing] = React.useState(false);
   const [recordedChunks, setRecordedChunks] = React.useState([]);
 
@@ -106,6 +107,7 @@ export default function Camera () {
 
         // Now we tell React Router to redirect back to '/'
         console.log('Video uploaded to backend');
+        setRedirect(true);
 
       }).catch((e) => console.error('Video not uploaded to backend'));  
     } 
@@ -114,16 +116,22 @@ export default function Camera () {
   return (
     <div className="camera">
       <h1> Record your profile video below! </h1>
-      <Webcam audio={true} ref={webcamRef} />
+      <div style={{
+        width: "50vw",
+        padding: "5vh"
+      }}>
+        <Webcam audio={true} ref={webcamRef} />
+      </div>
       <br></br>
-      {capturing ? (<button id="stopButton" value="Stop Capture" onClick={(e) => {
+      {capturing ? (<input type="button" id="stopButton" value="Stop Capture" onClick={(e) => {
         e.preventDefault();
         handleStopCaptureClick();
       }} />) : 
-      (<button id="startButton" value="Start Capture" onClick={(e) => {
+      (<input type="button" id="startButton" value="Start Capture" onClick={(e) => {
         e.preventDefault();
         handleStartCaptureClick();
       }}/>)}
+      { redirect ? <Navigate to="/" /> : <div></div> }
     </div>
   );
 };

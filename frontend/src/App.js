@@ -362,7 +362,7 @@ class App extends React.Component {
           } />
 
           <Route path="/profile" element={
-            <Profile />
+            <Profile uid={ (this.state.loggedIn) ? auth.currentUser.uid : null }/>
           } />
 
           <Route path="/camera" element={
